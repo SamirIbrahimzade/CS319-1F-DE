@@ -2,11 +2,11 @@
 Game project for CS319 course
 
 # Team Members
-Taner
-Samir
-Ayberk
-Hassan
-Alymbek
+Taner Durmaz  21503008
+Abdullah Ayberk Görgün  21201986
+Samir Ibrahimzade  21701339
+Hassan Raza  21701811
+Alymbek Sagymbae 21701440"
 
 # Why Defender?
 
