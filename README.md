@@ -8,9 +8,8 @@ Samir Ibrahimzade  21701339
 Hassan Raza  21701811
 Alymbek Sagymbae 21701440"
 
-# Why Defender?
+# Game Description
 
-After examining all projects, we saw that there is more creative space in Defender. We thought it would be difficult to add or change features as there are lots of details in board games which could break the balance. For an arcade game it is easier to adjust features while preserving the balance.
 
 # Google Docs Links
 Meeting logs - https://docs.google.com/document/d/1ZL8isJ4zU24FUQldkg63IgHztB-UvplezOhHV8Itk-I/edit?ts=5d987c54#heading=h.2575sewr3mc9
