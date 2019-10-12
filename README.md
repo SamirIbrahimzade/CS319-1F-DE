@@ -9,6 +9,7 @@ Hassan Raza  21701811
 Alymbek Sagymbae 21701440"
 
 # Game Description
+This is our version of arcade video game Defender. It is a shooting game in which our ship moves horizontally in both directions and can move vertically only in the length of screen visible. There are incomming waves of enemy ships from both directions which we must shoot down. Gradually as time passes incomming waves become faster and comprised of more number ships. We will collect points as we shoot the enemy, and based on these points highscorer will be choosen.
 
 
 # Google Docs Links
