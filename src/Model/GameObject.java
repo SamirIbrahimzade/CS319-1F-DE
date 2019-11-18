@@ -2,13 +2,15 @@ package Model;
 
 import javafx.scene.image.Image;
 
+import java.awt.image.BufferedImage;
+
 public abstract class GameObject {
 
     public int x = 0;
     public int y;
     public int curDirection;
     public int speed;
-    public Image img;
+    public BufferedImage img;
 
     public void setCurDirection(int curDirection) {
         this.curDirection = curDirection;
@@ -18,7 +20,7 @@ public abstract class GameObject {
         this.speed = speed;
     }
 
-    public void setImg(Image img) {
+    public void setImg(BufferedImage img) {
         this.img = img;
     }
 
@@ -46,7 +48,7 @@ public abstract class GameObject {
         return speed;
     }
 
-    public Image getImg() {
+    public BufferedImage getImg() {
         return img;
     }
 }

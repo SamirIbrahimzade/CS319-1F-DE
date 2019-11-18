@@ -1,7 +1,13 @@
 package Model;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 public class Player extends GameObject {
     private int lives;
+    final private int SPEED = 10;
 
     public void shoot(){
 
@@ -23,26 +29,34 @@ public class Player extends GameObject {
         //curDirection 1 for Right
 
         if(direction == 0){
-            this.y += 10;
+            this.y += SPEED;
         }
         if(direction == 1){
-            this.y -= 10;
+            this.y -= SPEED;
         }
         if(direction == 2){
             if(this.curDirection == 1){
-                //change png file
-                //this.img =
+                String imagePath = "spaceshipLeft.png";
+                try {
+                    this.img = ImageIO.read(new File(imagePath));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-                this.x -= 10;
+                this.x -= SPEED;
 
         }
         if(direction == 3){
             if(this.curDirection == 0){
-                //change png file
-                //this.img =
+                String imagePath = "spaceshipRight.png";
+                try {
+                    this.img = ImageIO.read(new File(imagePath));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
-            this.x += 10;
+            this.x += SPEED;
         }
 
     }
