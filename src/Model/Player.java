@@ -39,12 +39,15 @@ public class Player extends GameObject {
         gm.getBulletList()[gm.getBulletIndex()].setActive(true);
 
     }
+
     public void decreaseLife(){
-
+        lives = lives - 1;
     }
-    public void getLives(){
 
+    public int getLives(){
+        return lives;
     }
+
     public void move(int direction){
 
         //if direction = 0 move UP

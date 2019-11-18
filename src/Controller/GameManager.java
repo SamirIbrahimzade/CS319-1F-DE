@@ -79,7 +79,7 @@ public class GameManager {
     }
 
     private void createMap(){
-        try (FileInputStream inputStream = new FileInputStream("MediaFiles\\tempMap.png")) {
+        try (FileInputStream inputStream = new FileInputStream("MediaFiles/tempMap.png")) {
             mapImage = new Image(inputStream);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
