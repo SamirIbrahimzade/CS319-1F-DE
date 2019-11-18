@@ -2,7 +2,7 @@ package Model;
 
 import javafx.scene.image.Image;
 
-
+import java.awt.image.BufferedImage;
 
 public abstract class GameObject {
 
@@ -10,7 +10,7 @@ public abstract class GameObject {
     public int y;
     public int curDirection;
     public int speed;
-    public Image img;
+    public BufferedImage img;
     public boolean active;
 
     GameObject(){
@@ -25,7 +25,7 @@ public abstract class GameObject {
         this.speed = speed;
     }
 
-    public void setImg(Image img) {
+    public void setImg(BufferedImage img) {
         this.img = img;
     }
 
@@ -53,7 +53,7 @@ public abstract class GameObject {
         return speed;
     }
 
-    public Image getImg() {
+    public BufferedImage getImg() {
         return img;
     }
 
