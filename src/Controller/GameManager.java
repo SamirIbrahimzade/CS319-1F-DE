@@ -33,7 +33,7 @@ public class GameManager {
         createPlayer();
         createMap();
 
-        playerSafeDistance = (int)(mapImage.getWidth()/10);
+        playerSafeDistance = (mapImage.getWidth()/10);
     }
 
     public static GameManager getInstance(){
@@ -76,8 +76,8 @@ public class GameManager {
     }
 
     public void spawnPlayer(){
-        p.setX((int)( mapImage.getWidth()/2 ) );
-        p.setY((int)( mapImage.getHeight()/2 ) );
+        p.setX(( mapImage.getWidth()/2 ) );
+        p.setY(( mapImage.getHeight()/2 ) );
         p.setActive(true);
     }
 
