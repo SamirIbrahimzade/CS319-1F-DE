@@ -16,7 +16,7 @@ public class Enemy extends GameObject {
 
     public Enemy(){
 
-        speed = 10;
+        speed = 1;
         curDirection = 1;
         try (FileInputStream inputStream = new FileInputStream("MediaFiles/enemyImg2.png")) {
             img = new Image(inputStream);
@@ -34,16 +34,16 @@ public class Enemy extends GameObject {
         //if direction = 3 move RIGHT
 
         if(direction == 0){
-            this.y += speed;
+            this.y += 0.0001;
         }
         if(direction == 1){
-            this.y -= speed;
+            this.y -= 0.0001;
         }
         if(direction == 2){
-            this.x -= speed;
+            this.x -= 0.0001;
         }
         if(direction == 3){
-            this.x += speed;
+            this.x += 0.0001;
         }
     }
 

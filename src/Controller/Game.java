@@ -4,9 +4,12 @@ package Controller;
 import Model.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -14,11 +17,17 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+
+import java.util.ArrayList;
 
 import static javafx.scene.input.KeyCode.*;
 
@@ -32,7 +41,7 @@ public class Game extends Application {
     //Player player;
     static GameManager gm;
 
-    Scene mainScene, endScene;
+    Scene mainScene, creditsScene, scene, endScene;
 
     Pane root;
 
@@ -40,25 +49,91 @@ public class Game extends Application {
     public void start(Stage stage) throws Exception{
         // root = FXMLLoader.load(getClass().getResource("../View/sample.fxml"));
 
-        stage.setFullScreen(true);
-
         root = new Pane();
+
+
+        stage.setWidth(1024);
+        stage.setHeight(576);
+        //stage.setMaximized(true);
+        Scene scene = new Scene(root);
 
         stage.setTitle("Defender");
 
-        Scene scene = new Scene(root);
+////////////////////////////////////////////////////////////////////////////////////////
 
         Label title = new Label("DEFENDER");
         title.setTextFill(Color.BLACK);
+        title.setPadding(new Insets(150));
 
+        final double MAX_FONT_SIZE = 50.0;
+        title.setFont(new Font(MAX_FONT_SIZE));
 
         Button gameButton = new Button("Play Game");
         Button scoresButton = new Button("High Scores");
         Button creditsButton = new Button("Credits");
         Button quitButton = new Button("Quit");
 
-        gameButton.setOnAction(e -> stage.setScene(scene));
+        // gameButton.setOnAction(e -> stage.setScene(scene));
+        // creditsButton.setOnAction(e -> stage.setScene(creditsScene));
 
+        gameButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                stage.setScene(scene);
+               // stage.setMaximized(true);
+            }
+        });
+
+
+
+        VBox mainLayout = new VBox(10);
+
+        mainLayout.setAlignment(Pos.TOP_CENTER);
+
+        mainLayout.getChildren().addAll(
+                title,
+                gameButton,
+                scoresButton,
+                creditsButton,
+                quitButton
+        );
+
+        mainScene = new Scene(mainLayout);
+
+        stage.setScene(mainScene);
+        stage.show();
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+        Label person1 = new Label("Samir Ibrahimzade");
+        Label person2 = new Label("Abdullah Ayberk Gorgun");
+        Label person3 = new Label("Taner Durmaz");
+        Label person4 = new Label("Hassan ");
+        Label person5 = new Label("Samir Ibrahimzade");
+
+        VBox creditsLayout = new VBox(10);
+
+        //creditsLayout.setAlignment();
+        creditsLayout.setAlignment(Pos.TOP_CENTER);
+        creditsLayout.getChildren().addAll(
+                person1,
+                person2,
+                person3,
+                person4,
+                person5
+        );
+
+        creditsScene = new Scene(creditsLayout,1024,576);
+
+
+
+
+        quitButton.setOnAction(e -> Platform.exit());
+
+        creditsButton.setOnAction(e -> stage.setScene(creditsScene));
+
+////////////////////////////////////////////////////////////////////////////////////////
 
         TextField enterName = new TextField("enter name");
         Label over = new Label("GAME OVER! \n \n" + "Your Score: " + gm.getScore() + "\n \n");
@@ -73,21 +148,9 @@ public class Game extends Application {
         endLayout.getChildren().addAll(over, enterName);
         endScene = new Scene(endLayout, WIDTH, HEIGHT);
 
-        VBox mainLayout = new VBox();
-        mainLayout.setAlignment(Pos.CENTER);
+////////////////////////////////////////////////////////////////////////////////////////
 
-        mainLayout.getChildren().addAll(
-                title,
-                gameButton,
-                scoresButton,
-                creditsButton,
-                quitButton
-        );
 
-        mainScene = new Scene(mainLayout, WIDTH, HEIGHT);
-
-        stage.setScene(mainScene);
-        stage.show();
         //cam = new GCamera(0,0);
         //cam.tick(player);
 
@@ -98,9 +161,9 @@ public class Game extends Application {
         //handler.render(g);
         //g2d.translate(-cam.getX(),-cam.getY());
 
-        Canvas canvas = new Canvas( 1200, 700 );
-        canvas.setHeight(stage.getHeight());
-        canvas.setHeight(stage.getWidth());
+        Canvas canvas = new Canvas( 1920, 1080 );
+
+
         root.getChildren().add( canvas );
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -112,6 +175,28 @@ public class Game extends Application {
             public void handle(long currentNanoTime)
             {
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
+
+                //enemy move and shoot
+                for(Enemy e: gm.getEnemyList()){
+                    if(e.isActive()){
+                        int max = 4;
+                        int min = 0;
+                        int range = max - min + 1;
+                        int rand = (int)(Math.random() * range) + min;
+                        for(int i = 0; i < 70000; i++){
+                            e.move(rand);
+                        }
+                        e.shoot();
+                    }
+                }
+                //bullet move
+                for(Bullet b: gm.getBulletList()){
+                    if(b.isActive()){
+                        for(int i = 0; i < 5; i++){
+                            b.move(gm.getP().getCurDirection());
+                        }
+                    }
+                }
 
                 gc.drawImage(gm.getMapImage(),0,0) ;
                 if(gm.getP().isActive()){
@@ -137,6 +222,7 @@ public class Game extends Application {
             }
         }.start();
 
+
         scene.setOnKeyPressed(new EventHandler<javafx.scene.input.KeyEvent>() {
             @Override
             public void handle(javafx.scene.input.KeyEvent event) {
@@ -149,7 +235,25 @@ public class Game extends Application {
                     case SHIFT: running = true; break;
                 }*/
 
+                //enemy move and shoot
+                for(Enemy e: gm.getEnemyList()){
+                    int max = 3;
+                    int min = 0;
+                    int range = max - min + 1;
+                    for(int i = 0; i < 5; i++){
+                        e.move((int)(Math.random() * range) + min);
+                    }
+                    e.shoot();
+                }
+
                 checkCol();
+
+                if(gm.checkLives()){
+                    stage.setScene(endScene);
+                    stage.show();
+                }
+
+
 
                 if(event.getCode() == P){//P ?
                     System.out.println("pause");
@@ -160,17 +264,19 @@ public class Game extends Application {
                         System.out.println("up");
                         gm.getP().move(0);
                     }
-                    else if(event.getCode() == DOWN){
+                    if(event.getCode() == DOWN){
                         System.out.println("down");
                         gm.getP().move(1);
                     }
                     if(event.getCode() == RIGHT){
                         System.out.println("right");
                         gm.getP().move(3);
+                        gm.getP().setCurDirection(1);
                     }
-                    else if(event.getCode() == LEFT){
+                    if(event.getCode() == LEFT){
                         System.out.println("left");
                         gm.getP().move(2);
+                        gm.getP().setCurDirection(0);
                     }
                     if(event.getCode() == SPACE){
                         System.out.println("player.shoot");
@@ -194,13 +300,7 @@ public class Game extends Application {
                 }*/
             }
         });
-        //enemy move and shoot
-        for(Enemy e: gm.getEnemyList()){
-            for(int i = 0; i < 5;i++){
-                e.move((int)( Math.random()*4 -1));
-            }
-            e.shoot();
-        }
+
 
         // stage.setScene(scene);
         // stage.show();
@@ -227,7 +327,7 @@ public class Game extends Application {
         for (Bullet bullet : gm.getBulletList()) {
 
             // the bullet must be an enemy bullet
-            if (bullet.isEnemyBullet()) {
+            if (bullet.isEnemyBullet() && bullet.isActive()) {
 
                 // the condition when the bullet location is inside the rectangle of player
                 if ( Math.abs( bullet.getX() - player.getX() ) < widthPlayer / 2
@@ -250,22 +350,24 @@ public class Game extends Application {
         // the enemy is hit with player bullet
 
         for (Enemy enemy : gm.getEnemyList()) {
-            int widthEnemy = (int) enemy.getImg().getWidth();
-            int heightEnemy = (int) enemy.getImg().getHeight();
-            for (Bullet bullet : gm.getBulletList()) {
-                if (!bullet.isEnemyBullet()) {
+            if (enemy.isActive()) {
+                int widthEnemy = (int) enemy.getImg().getWidth();
+                int heightEnemy = (int) enemy.getImg().getHeight();
+                for (Bullet bullet : gm.getBulletList()) {
+                    if (!bullet.isEnemyBullet() && bullet.isActive()) {
 
-                    // the condition when the player bullet location is inside the rectangle of enemy
-                    if ( Math.abs( bullet.getX() - enemy.getX() ) < widthEnemy / 2
-                            && Math.abs( bullet.getY() - player.getY() ) < heightEnemy / 2 ) {
+                        // the condition when the player bullet location is inside the rectangle of enemy
+                        if (Math.abs(bullet.getX() - enemy.getX()) < widthEnemy / 2
+                                && Math.abs(bullet.getY() - player.getY()) < heightEnemy / 2) {
 
-                        // 1) destroy the player bullet
-                        // 2) destroy the enemy
+                            // 1) destroy the player bullet
+                            // 2) destroy the enemy
 
-                        enemy.setActive(false);
-                        bullet.setActive(false);
+                            enemy.setActive(false);
+                            bullet.setActive(false);
 
-                        break;
+                            break;
+                        }
                     }
                 }
             }
@@ -277,42 +379,46 @@ public class Game extends Application {
 
         for (Enemy enemy : gm.getEnemyList()) {
 
-            int widthEnemy = (int) enemy.getImg().getWidth();
-            int heightEnemy = (int) enemy.getImg().getHeight();
+            if (enemy.isActive()) {
 
-            // the condition when the enemy rectangle is inside the rectangle of player
-            if ( Math.abs( enemy.getX() - player.getX() ) < (widthPlayer / 2 + widthEnemy / 2)
-                    && Math.abs ( enemy.getY() - player.getY() ) < (heightPlayer / 2 + heightEnemy / 2)) {
+                int widthEnemy = (int) enemy.getImg().getWidth();
+                int heightEnemy = (int) enemy.getImg().getHeight();
+
+                // the condition when the enemy rectangle is inside the rectangle of player
+                if (Math.abs(enemy.getX() - player.getX()) < (widthPlayer / 2 + widthEnemy / 2)
+                        && Math.abs(enemy.getY() - player.getY()) < (heightPlayer / 2 + heightEnemy / 2)) {
 
 
-                // 1) destroy the enemy
-                // 2) decrease the player's life
+                    // 1) destroy the enemy
+                    // 2) decrease the player's life
 
-                enemy.setActive(false);
-                player.decreaseLife();
+                    enemy.setActive(false);
+                    player.decreaseLife();
 
-                break;
+                    break;
+                }
             }
         }
 
 
         for (Bonus bonus : gm.getBonusList()) {
-            int widthBonus = (int) bonus.getImg().getWidth();
-            int heightBonus = (int) bonus.getImg().getHeight();
+            if (bonus.isActive()) {
+                int widthBonus = (int) bonus.getImg().getWidth();
+                int heightBonus = (int) bonus.getImg().getHeight();
 
-            if ( Math.abs( bonus.getX() - player.getX() ) < (widthPlayer / 2 + widthBonus / 2)
-                    && Math.abs ( bonus.getY() - player.getY() ) < (heightPlayer / 2 + heightBonus / 2)) {
+                if (Math.abs(bonus.getX() - player.getX()) < (widthPlayer / 2 + widthBonus / 2)
+                        && Math.abs(bonus.getY() - player.getY()) < (heightPlayer / 2 + heightBonus / 2)) {
 
-                bonus.setActive(false);
-                if (player.getLives() < 3) {
-                    player.setLives(player.getLives() + 1);
+                    bonus.setActive(false);
+                    if (player.getLives() < 3) {
+                        player.setLives(player.getLives() + 1);
+                    }
+
                 }
-
             }
         }
 
     }
-
     public static void main(String[] args) {
 
         launch(args);

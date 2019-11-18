@@ -131,7 +131,7 @@ public class GameManager {
     }
 
     boolean checkLives(){
-        if(p.getLives() == 0) {
+        if(p.getLives() < 1) {
             return true;
         }
         return false;

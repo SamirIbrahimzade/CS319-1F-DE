@@ -60,14 +60,13 @@ public class Player extends GameObject {
         //curDirection 1 for Right
 
         if(direction == 0){
-            this.y += speed;
+            this.y -= speed;
         }
         if(direction == 1){
-            this.y -= speed;
+            this.y += speed;
         }
         if(direction == 2){
             if(this.curDirection == 1){
-                String imagePath = "spaceshipLeft.png";
                 try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipLeft2.png")) {
                     img = new Image(inputStream);
                 } catch (FileNotFoundException e) {

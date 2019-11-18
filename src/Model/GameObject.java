@@ -6,10 +6,10 @@ import java.awt.image.BufferedImage;
 
 public abstract class GameObject {
 
-    public int x = 0;
-    public int y;
+    public float x;
+    public float y;
     public int curDirection;
-    public int speed;
+    public float speed;
     public Image img;
     public boolean active;
 
@@ -29,19 +29,19 @@ public abstract class GameObject {
         this.img = img;
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
@@ -49,7 +49,7 @@ public abstract class GameObject {
         return curDirection;
     }
 
-    public int getSpeed() {
+    public float getSpeed() {
         return speed;
     }
 
