@@ -16,8 +16,8 @@ import static javafx.scene.input.KeyCode.*;
 
 public class Game extends Application {
 
-    GCamera cam;
-    Player player;
+    //GCamera cam;
+    //Player player;
 
 
     @Override
@@ -27,8 +27,8 @@ public class Game extends Application {
 
         Scene scene = new Scene(root, 300, 275);
 
-        cam = new GCamera(0,0);
-        cam.tick(player);
+        //cam = new GCamera(0,0);
+        //cam.tick(player);
 
         //needs to be in render method
         //Graphics g = getDrawGraphics();
