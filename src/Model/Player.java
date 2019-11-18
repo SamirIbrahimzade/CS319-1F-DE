@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.GameManager;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,6 +10,7 @@ import java.io.IOException;
 public class Player extends GameObject {
     private int lives;
     final private int SPEED = 10;
+    static GameManager gm = GameManager.getInstance();
 
     public void shoot(){
 

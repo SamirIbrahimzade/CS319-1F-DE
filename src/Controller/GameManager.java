@@ -1,39 +1,51 @@
 package Controller;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
 import Model.*;
 import javafx.scene.image.Image;
 
+import javax.imageio.ImageIO;
+
 public class GameManager {
+    private static GameManager gm = null;
 
     private int enemyCount = 20;
-    private int enemyIndex = 0;
 
     private int bulletCount = 80;
     private int bulletIndex = 0;
 
     private int bonusCount = 5;
-    private int bonusIndex = 0;
 
     private int playerSafeDistance;
 
     private int score;
     //We take position, name and score for each of highscores and store 5 highscores
     private String[] highScores = new String[15];
-    GameManager(){
+    private GameManager(){
         createBonus();
         createBullet();
         createEnemy();
         createPlayer();
+        createMap();
 
         playerSafeDistance = (int)(mapImage.getWidth()/10);
     }
 
+    public static GameManager getInstance(){
+        if(gm == null){
+            gm = new GameManager();
+        }
+        return gm;
+    }
+
     private GCamera gCamera;
     private int level;
-    private Image mapImage;
+    private BufferedImage mapImage;
     private Bullet[] bulletList;
     private Enemy[] enemyList;
     private Player p;
@@ -54,6 +66,15 @@ public class GameManager {
         p = new Player();
     }
 
+    private void createMap(){
+        try {
+            mapImage = ImageIO.read(new File("tempMap.jpg"));
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void spawnPlayer(){
         p.setX((int)( mapImage.getWidth()/2 ) );
         p.setY((int)( mapImage.getHeight()/2 ) );
@@ -67,6 +88,22 @@ public class GameManager {
             enemyList[i].setActive(true);
         }
     }
+    /*
+    public void spawnBullet(int direction, boolean isEnemyBullet){
+        if(isEnemyBullet){
+            bulletList[bulletIndex].setX(this.getX());
+            bulletList[bulletIndex].setY(this.getY());
+        }
+        else{
+            bulletList[bulletIndex].setX(p.getX());
+            bulletList[bulletIndex].setY(p.getY());
+        }
+
+        bulletList[bulletIndex].setCurDirection(direction);
+        bulletList[bulletIndex].setActive(true);
+    }
+
+     */
 
     private int randomXPos(){
         int randX;
@@ -87,12 +124,12 @@ public class GameManager {
         this.gCamera = gCamera;
     }
 
-    public void setMapImage(Image mapImage) {
-        this.mapImage = mapImage;
-    }
-
     public int getScore() {
         return score;
+    }
+
+    public int getBulletIndex(){
+        return bulletIndex;
     }
 
     public String[] getHighScores() {
