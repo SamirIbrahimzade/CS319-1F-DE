@@ -1,14 +1,20 @@
 package Controller;
 
 
-import Model.Enemy;
-import Model.GCamera;
-import Model.Player;
+import Model.*;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
@@ -17,20 +23,49 @@ import static javafx.scene.input.KeyCode.*;
 
 public class Game extends Application {
 
-    //GCamera cam;
-    GameManager gm;
+    private static final int WIDTH = 1200;
+    private static final int HEIGHT = 800;
 
+    //GCamera cam;
+    //Player player;
+    static GameManager gm;
+
+    Scene mainScene, gameScene;
+
+    Pane root;
 
     @Override
     public void start(Stage stage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../View/sample.fxml"));
+        // root = FXMLLoader.load(getClass().getResource("../View/sample.fxml"));
+
+        root = new Pane();
+
         stage.setTitle("Defender");
 
-        init();
-        Scene scene = new Scene(root, 300, 275);
+        Scene scene = new Scene(root);
+
+        Label title = new Label("DEFENDER");
+        title.setTextFill(Color.BLACK);
+        title.setTranslateX(WIDTH / 2 - 25);
+        title.setTranslateY(HEIGHT / 3);
 
 
-        //cam.tick(gm.getP());
+        Button gameButton = new Button("Play Game");
+        gameButton.setTranslateX(WIDTH / 2 - 25);
+        gameButton.setTranslateY(HEIGHT / 3);
+        gameButton.setOnAction(e -> stage.setScene(scene));
+
+
+        VBox mainLayout = new VBox();
+
+        mainLayout.getChildren().addAll(title, gameButton);
+
+        mainScene = new Scene(mainLayout, WIDTH, HEIGHT);
+
+        stage.setScene(mainScene);
+        stage.show();
+        //cam = new GCamera(0,0);
+        //cam.tick(player);
 
         //needs to be in render method
         //Graphics g = getDrawGraphics();
@@ -38,6 +73,34 @@ public class Game extends Application {
         //g2d.translate(cam.getX(),cam.getY());
         //handler.render(g);
         //g2d.translate(-cam.getX(),-cam.getY());
+
+        Canvas canvas = new Canvas( 512, 512 );
+        root.getChildren().add( canvas );
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        final long startNanoTime = System.nanoTime();
+
+        new AnimationTimer()
+        {
+            public void handle(long currentNanoTime)
+            {
+                double t = (currentNanoTime - startNanoTime) / 1000000000.0;
+
+                //gm.drawImage(  ) background
+                gc.drawImage( gm.getP().getImg(), gm.getP().getX(), gm.getP().getY() );
+                gc.drawImage( gm.getP().getImg(), gm.getP().getX(), gm.getP().getY() );
+                for(Enemy e: gm.getEnemyList()){
+                    gc.drawImage( e.getImg(), e.getX(), e.getY() );
+                }
+                for(Bullet b: gm.getBulletList()){
+                    gc.drawImage( b.getImg(), b.getX(), b.getY() );
+                }
+                for(Bonus b: gm.getBonusList()){
+                    gc.drawImage( b.getImg(), b.getX(), b.getY() );
+                }
+            }
+        }.start();
 
         scene.setOnKeyPressed(new EventHandler<javafx.scene.input.KeyEvent>() {
             @Override
@@ -101,9 +164,10 @@ public class Game extends Application {
             e.shoot();
         }
 
-        stage.setScene(scene);
-        stage.show();
+        // stage.setScene(scene);
+        // stage.show();
     }
+
 
     public void init(){
         //cam = new GCamera(0,0);

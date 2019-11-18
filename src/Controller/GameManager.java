@@ -1,9 +1,7 @@
 package Controller;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Scanner;
 
 import Model.*;
@@ -22,6 +20,13 @@ public class GameManager {
     private int bonusCount = 5;
 
     private int playerSafeDistance;
+    private GCamera gCamera;
+    private int level;
+    private Image mapImage;
+    private Bullet[] bulletList;
+    private Enemy[] enemyList;
+    private Player p;
+    private Bonus[] bonusList;
 
     private int score;
     //We take position, name and score for each of highscores and store 5 highscores
@@ -33,7 +38,7 @@ public class GameManager {
         createPlayer();
         createMap();
 
-        playerSafeDistance = (mapImage.getWidth()/10);
+        playerSafeDistance = (int)(mapImage.getWidth()/10);
     }
 
     public static GameManager getInstance(){
@@ -43,23 +48,25 @@ public class GameManager {
         return gm;
     }
 
-    private GCamera gCamera;
-    private int level;
-    private BufferedImage mapImage;
-    private Bullet[] bulletList;
-    private Enemy[] enemyList;
-    private Player p;
-    private Bonus[] bonusList;
 
     private void createEnemy(){
         enemyList = new Enemy[enemyCount];
+        for(int i =0; i < enemyCount; i++){
+            enemyList[i] = new Enemy();
+        }
     }
     private void createBullet(){
         bulletList = new Bullet[bulletCount];
+        for(int i =0; i < bulletCount; i++){
+            bulletList[i] = new Bullet();
+        }
     }
 
     private void createBonus(){
         bonusList = new Bonus[bonusCount];
+        for(int i =0; i < bonusCount; i++){
+            bonusList[i] = new Bonus();
+        }
     }
 
     private void createPlayer(){
@@ -67,17 +74,19 @@ public class GameManager {
     }
 
     private void createMap(){
-        try {
-            mapImage = ImageIO.read(new File("tempMap.jpg"));
-        }catch (IOException e) {
+        try (FileInputStream inputStream = new FileInputStream("MediaFiles\\tempMap.png")) {
+            mapImage = new Image(inputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
     public void spawnPlayer(){
-        p.setX(( mapImage.getWidth()/2 ) );
-        p.setY(( mapImage.getHeight()/2 ) );
+        p.setX((int)( mapImage.getWidth()/2 ) );
+        p.setY((int)( mapImage.getHeight()/2 ) );
         p.setActive(true);
     }
 

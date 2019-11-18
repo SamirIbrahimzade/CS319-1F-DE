@@ -1,8 +1,12 @@
 package Model;
 
+import javafx.scene.image.Image;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Player extends GameObject {
@@ -13,12 +17,14 @@ public class Player extends GameObject {
         lives = 3;
         speed = 10;
         curDirection = 1;
-        String imagePath = "spaceshipRight.png";
-        try {
-            img = ImageIO.read(new File(imagePath));
+        try (FileInputStream inputStream = new FileInputStream("MediaFiles\\spaceshipRight.png")) {
+            img = new Image(inputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void shoot(){
@@ -49,8 +55,10 @@ public class Player extends GameObject {
         if(direction == 2){
             if(this.curDirection == 1){
                 String imagePath = "spaceshipLeft.png";
-                try {
-                    this.img = ImageIO.read(new File(imagePath));
+                try (FileInputStream inputStream = new FileInputStream("MediaFiles\\spaceshipLeft.png")) {
+                    img = new Image(inputStream);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -60,13 +68,13 @@ public class Player extends GameObject {
         }
         if(direction == 3){
             if(this.curDirection == 0){
-                String imagePath = "spaceshipRight.png";
-                try {
-                    this.img = ImageIO.read(new File(imagePath));
+                try (FileInputStream inputStream = new FileInputStream("MediaFiles\\spaceshipRight.png")) {
+                    img = new Image(inputStream);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
-            }
+                }            }
 
             this.x += speed;
         }

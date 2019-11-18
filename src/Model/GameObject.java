@@ -10,7 +10,7 @@ public abstract class GameObject {
     public int y;
     public int curDirection;
     public int speed;
-    public BufferedImage img;
+    public Image img;
     public boolean active;
 
     GameObject(){
@@ -25,7 +25,7 @@ public abstract class GameObject {
         this.speed = speed;
     }
 
-    public void setImg(BufferedImage img) {
+    public void setImg(Image img) {
         this.img = img;
     }
 
@@ -53,7 +53,7 @@ public abstract class GameObject {
         return speed;
     }
 
-    public BufferedImage getImg() {
+    public Image getImg() {
         return img;
     }
 
