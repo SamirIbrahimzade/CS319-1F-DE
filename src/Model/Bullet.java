@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class Bullet extends GameObject {
     private boolean isEnemyBullet;
-    private final int speed = 50;
+    private final int speed = 1;
 
     public Bullet(){
         try (FileInputStream inputStream = new FileInputStream("MediaFiles/bullet.png")) {

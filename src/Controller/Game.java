@@ -41,7 +41,7 @@ public class Game extends Application {
     //Player player;
     static GameManager gm;
 
-    Scene mainScene, creditsScene, scene, endScene;
+    Scene mainScene, creditsScene, scene, endScene,highScene;
 
     Pane root;
 
@@ -75,6 +75,9 @@ public class Game extends Application {
 
         // gameButton.setOnAction(e -> stage.setScene(scene));
         // creditsButton.setOnAction(e -> stage.setScene(creditsScene));
+
+        scoresButton.setOnAction(e->stage.setScene(highScene));
+        Button goMenu = new Button("Go to Main Menu");
 
         gameButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -114,15 +117,7 @@ public class Game extends Application {
 
         VBox creditsLayout = new VBox(10);
 
-        //creditsLayout.setAlignment();
-        creditsLayout.setAlignment(Pos.TOP_CENTER);
-        creditsLayout.getChildren().addAll(
-                person1,
-                person2,
-                person3,
-                person4,
-                person5
-        );
+
 
         creditsScene = new Scene(creditsLayout,1024,576);
 
@@ -135,8 +130,8 @@ public class Game extends Application {
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-        TextField enterName = new TextField("enter name");
-        Label over = new Label("GAME OVER! \n \n" + "Your Score: " + gm.getScore() + "\n \n");
+        TextField enterName = new TextField();
+        Label over = new Label("GAME OVER! \n \n" + "Your Score: " + gm.getScore() + "\n \nenter name: ");
         over.setTextFill(Color.BLACK);
         over.setTranslateX(WIDTH / 2 - 25);
         over.setTranslateY(HEIGHT / 3);
@@ -144,9 +139,48 @@ public class Game extends Application {
         enterName.setTranslateY(HEIGHT / 3);
         enterName.setAlignment(Pos.CENTER);
         enterName.setMaxWidth(100);
+        Button enterButton = new Button("ENTER");
+        enterButton.setTranslateX(WIDTH / 2 - 25);
+        enterButton.setTranslateY(HEIGHT / 3);
+        enterButton.setOnAction(e -> stage.setScene(highScene));
         VBox endLayout = new VBox();
-        endLayout.getChildren().addAll(over, enterName);
+        endLayout.getChildren().addAll(over, enterName, enterButton);
         endScene = new Scene(endLayout, WIDTH, HEIGHT);
+///////////////////////////////////////////////////////
+
+        gm.loadHighScore();
+        String[] high = gm.getHighScores();
+        Label scores1 = new Label("HIGH SCORES \n \n" + high[0]+" "+high[1]+" "+high[2]);
+        Label scores2 = new Label(high[3]+" "+high[4]+" "+high[5]+"\n"+high[6]+" "+high[7]+" "+high[8]);
+        Label scores3 = new Label(high[9]+" "+high[10]+" "+high[11]+"\n"+high[12]+" "+high[13]+" "+high[14]);
+        scores1.setTranslateX(WIDTH / 2 - 25);
+        scores1.setTranslateY(HEIGHT / 3);
+        scores2.setTranslateX(WIDTH / 2 - 25);
+        scores2.setTranslateY(HEIGHT / 3);
+        scores3.setTranslateX(WIDTH / 2 - 25);
+        scores3.setTranslateY(HEIGHT / 3);
+        Button menuButton = new Button("Go To Main Menu");
+        menuButton.setTranslateX(WIDTH / 2 - 25);
+        menuButton.setTranslateY(HEIGHT / 3);
+        menuButton.setOnAction(e -> stage.setScene(mainScene));
+        VBox highLayout = new VBox();
+        highLayout.getChildren().addAll(scores1, scores2, scores3, menuButton);
+        highScene = new Scene(highLayout, WIDTH, HEIGHT);
+
+        Button menuButtonForCredits = new Button("Go To Main Menu");
+
+        menuButtonForCredits.setOnAction(e -> stage.setScene(mainScene));
+
+        //creditsLayout.setAlignment();
+        creditsLayout.setAlignment(Pos.CENTER);
+        creditsLayout.getChildren().addAll(
+                person1,
+                person2,
+                person3,
+                person4,
+                person5,
+                menuButtonForCredits
+        );
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -279,6 +313,7 @@ public class Game extends Application {
                         gm.getP().setCurDirection(0);
                     }
                     if(event.getCode() == SPACE){
+                        gm.getP().shoot();
                         System.out.println("player.shoot");
                     }
                 }
@@ -363,6 +398,7 @@ public class Game extends Application {
                             // 1) destroy the player bullet
                             // 2) destroy the enemy
 
+                            gm.increaseScore();
                             enemy.setActive(false);
                             bullet.setActive(false);
 

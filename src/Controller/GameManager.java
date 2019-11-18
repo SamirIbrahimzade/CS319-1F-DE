@@ -28,7 +28,9 @@ public class GameManager {
     private Player p;
     private Bonus[] bonusList;
 
-    private int score;
+    private int killScore = 500;
+
+    private int score = 0;
     //We take position, name and score for each of highscores and store 5 highscores
     static String[] highScores = new String[15];
 
@@ -79,7 +81,7 @@ public class GameManager {
     }
 
     private void createMap(){
-        try (FileInputStream inputStream = new FileInputStream("MediaFiles/tempMap.png")) {
+        try (FileInputStream inputStream = new FileInputStream("MediaFiles/mapImg3.png")) {
             mapImage = new Image(inputStream);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -177,12 +179,15 @@ public class GameManager {
         return bonusList;
     }
 
+    public void increaseScore(){
+        score += killScore;
+    }
 
     static void loadHighScore() throws FileNotFoundException{
         Scanner data;
         //loading file
 
-        data = new Scanner(new File("Highscores.txt"));
+        data = new Scanner(new File("MediaFiles/Highscores.txt"));
 
 
         int highArrayP = 0;
@@ -223,9 +228,7 @@ public class GameManager {
         }
         catch (Exception e) {}
     }
-    private void increaseScore(int point){
-        score = score + point;
-    }
+
 
     private void increaseLevel(){
         level++;

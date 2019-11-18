@@ -15,7 +15,7 @@ public class Bonus extends GameObject {
 
         speed = 10;
         curDirection = 1;
-        try (FileInputStream inputStream = new FileInputStream("MediaFiles/bonus2.png")) {
+        try (FileInputStream inputStream = new FileInputStream("MediaFiles/bonus3.png")) {
             img = new Image(inputStream);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
