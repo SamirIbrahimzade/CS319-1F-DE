@@ -8,10 +8,28 @@ import javafx.scene.image.Image;
 
 public class GameManager {
 
+    private int enemyCount = 20;
+    private int enemyIndex = 0;
+
+    private int bulletCount = 80;
+    private int bulletIndex = 0;
+
+    private int bonusCount = 5;
+    private int bonusIndex = 0;
+
+    private int playerSafeDistance;
+
     private int score;
     //We take position, name and score for each of highscores and store 5 highscores
     private String[] highScores = new String[15];
-    //GameManager(){ }
+    GameManager(){
+        createBonus();
+        createBullet();
+        createEnemy();
+        createPlayer();
+
+        playerSafeDistance = (int)(mapImage.getWidth()/10);
+    }
 
     private GCamera gCamera;
     private int level;
@@ -21,8 +39,48 @@ public class GameManager {
     private Player p;
     private Bonus[] bonusList;
 
-    private void createEnemy(){}
-    private void createBullet(){}
+    private void createEnemy(){
+        enemyList = new Enemy[enemyCount];
+    }
+    private void createBullet(){
+        bulletList = new Bullet[bulletCount];
+    }
+
+    private void createBonus(){
+        bonusList = new Bonus[bonusCount];
+    }
+
+    private void createPlayer(){
+        p = new Player();
+    }
+
+    public void spawnPlayer(){
+        p.setX((int)( mapImage.getWidth()/2 ) );
+        p.setY((int)( mapImage.getHeight()/2 ) );
+        p.setActive(true);
+    }
+
+    public void spawnEnemy(){
+        for(int i = 0; i < enemyCount; i++){
+            enemyList[i].setX(randomXPos());
+            enemyList[i].setY(randomYPos());
+            enemyList[i].setActive(true);
+        }
+    }
+
+    private int randomXPos(){
+        int randX;
+        randX = (int)( Math.random()*(mapImage.getWidth()));
+        while (Math.abs(randX - p.getX()) < playerSafeDistance){
+            randX = (int)( Math.random()*(mapImage.getWidth()));
+        }
+        return randX;
+    }
+
+    private int randomYPos(){
+        return (int)( Math.random()*(mapImage.getHeight()));
+    }
+
     private void checkLives(){}
 
     public void setgCamera(GCamera gCamera) {

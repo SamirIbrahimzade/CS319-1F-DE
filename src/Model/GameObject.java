@@ -2,6 +2,8 @@ package Model;
 
 import javafx.scene.image.Image;
 
+
+
 public abstract class GameObject {
 
     public int x = 0;
@@ -9,6 +11,11 @@ public abstract class GameObject {
     public int curDirection;
     public int speed;
     public Image img;
+    public boolean active;
+
+    GameObject(){
+        active = false;
+    }
 
     public void setCurDirection(int curDirection) {
         this.curDirection = curDirection;
@@ -48,5 +55,13 @@ public abstract class GameObject {
 
     public Image getImg() {
         return img;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean value){
+        active = value;
     }
 }
