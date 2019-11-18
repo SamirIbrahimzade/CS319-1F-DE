@@ -53,5 +53,6 @@ public class Enemy extends GameObject {
         gm.getBulletList()[gm.getBulletIndex()].setY(this.y);
         gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(true);
         gm.getBulletList()[gm.getBulletIndex()].setActive(true);
+        gm.increaseBulletIndex();
     }
 }

@@ -109,22 +109,13 @@ public class GameManager {
             bonusList[i].setActive(true);
         }
     }
-    /*
-    public void spawnBullet(int direction, boolean isEnemyBullet){
-        if(isEnemyBullet){
-            bulletList[bulletIndex].setX(this.getX());
-            bulletList[bulletIndex].setY(this.getY());
-        }
-        else{
-            bulletList[bulletIndex].setX(p.getX());
-            bulletList[bulletIndex].setY(p.getY());
-        }
 
-        bulletList[bulletIndex].setCurDirection(direction);
-        bulletList[bulletIndex].setActive(true);
+    public void increaseBulletIndex(){
+        bulletIndex++;
+        if(bulletIndex >= bulletCount){
+            bulletIndex = 0;
+        }
     }
-
-     */
 
     private int randomXPos(){
         int randX;

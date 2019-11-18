@@ -2,6 +2,7 @@ package Model;
 
 public class Bullet extends GameObject {
     private boolean isEnemyBullet;
+    private final int speed = 50;
 
     public Bullet(){
 

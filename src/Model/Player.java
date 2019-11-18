@@ -37,6 +37,7 @@ public class Player extends GameObject {
         gm.getBulletList()[gm.getBulletIndex()].setY(this.y);
         gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
         gm.getBulletList()[gm.getBulletIndex()].setActive(true);
+        gm.increaseBulletIndex();
 
     }
 
