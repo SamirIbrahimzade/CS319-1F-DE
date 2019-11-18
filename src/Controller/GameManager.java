@@ -31,6 +31,11 @@ public class GameManager {
     private int score;
     //We take position, name and score for each of highscores and store 5 highscores
     private String[] highScores = new String[15];
+
+    public Image getMapImage() {
+        return mapImage;
+    }
+
     private GameManager(){
         createBonus();
         createBullet();

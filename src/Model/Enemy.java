@@ -18,7 +18,7 @@ public class Enemy extends GameObject {
 
         speed = 10;
         curDirection = 1;
-        try (FileInputStream inputStream = new FileInputStream("MediaFiles\\enemyImg.png")) {
+        try (FileInputStream inputStream = new FileInputStream("MediaFiles/enemyImg.png")) {
             img = new Image(inputStream);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

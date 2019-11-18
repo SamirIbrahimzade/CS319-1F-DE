@@ -87,7 +87,7 @@ public class Game extends Application {
             {
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
 
-                //gm.drawImage(  ) background
+                gc.drawImage(gm.getMapImage(),0,0) ;
                 gc.drawImage( gm.getP().getImg(), gm.getP().getX(), gm.getP().getY() );
                 gc.drawImage( gm.getP().getImg(), gm.getP().getX(), gm.getP().getY() );
                 for(Enemy e: gm.getEnemyList()){
