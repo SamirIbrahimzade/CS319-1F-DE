@@ -13,6 +13,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -31,13 +32,15 @@ public class Game extends Application {
     //Player player;
     static GameManager gm;
 
-    Scene mainScene, gameScene;
+    Scene mainScene, endScene;
 
     Pane root;
 
     @Override
     public void start(Stage stage) throws Exception{
         // root = FXMLLoader.load(getClass().getResource("../View/sample.fxml"));
+
+        stage.setFullScreen(true);
 
         root = new Pane();
 
@@ -56,6 +59,19 @@ public class Game extends Application {
 
         gameButton.setOnAction(e -> stage.setScene(scene));
 
+
+        TextField enterName = new TextField("enter name");
+        Label over = new Label("GAME OVER! \n \n" + "Your Score: " + gm.getScore() + "\n \n");
+        over.setTextFill(Color.BLACK);
+        over.setTranslateX(WIDTH / 2 - 25);
+        over.setTranslateY(HEIGHT / 3);
+        enterName.setTranslateX(WIDTH / 2 - 25);
+        enterName.setTranslateY(HEIGHT / 3);
+        enterName.setAlignment(Pos.CENTER);
+        enterName.setMaxWidth(100);
+        VBox endLayout = new VBox();
+        endLayout.getChildren().addAll(over, enterName);
+        endScene = new Scene(endLayout, WIDTH, HEIGHT);
 
         VBox mainLayout = new VBox();
         mainLayout.setAlignment(Pos.CENTER);
@@ -82,7 +98,9 @@ public class Game extends Application {
         //handler.render(g);
         //g2d.translate(-cam.getX(),-cam.getY());
 
-        Canvas canvas = new Canvas( 512, 512 );
+        Canvas canvas = new Canvas( 1200, 700 );
+        canvas.setHeight(stage.getHeight());
+        canvas.setHeight(stage.getWidth());
         root.getChildren().add( canvas );
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -96,16 +114,25 @@ public class Game extends Application {
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
 
                 gc.drawImage(gm.getMapImage(),0,0) ;
-                gc.drawImage( gm.getP().getImg(), gm.getP().getX(), gm.getP().getY() );
-                gc.drawImage( gm.getP().getImg(), gm.getP().getX(), gm.getP().getY() );
+                if(gm.getP().isActive()){
+                    gc.drawImage( gm.getP().getImg(), gm.getP().getX(), gm.getP().getY() );
+                }
+
                 for(Enemy e: gm.getEnemyList()){
-                    gc.drawImage( e.getImg(), e.getX(), e.getY() );
+                    if(e.isActive()){
+                        gc.drawImage( e.getImg(), e.getX(), e.getY() );
+
+                    }
                 }
                 for(Bullet b: gm.getBulletList()){
-                    gc.drawImage( b.getImg(), b.getX(), b.getY() );
+                    if(b.isActive()){
+                        gc.drawImage( b.getImg(), b.getX(), b.getY() );
+                    }
                 }
                 for(Bonus b: gm.getBonusList()){
-                    gc.drawImage( b.getImg(), b.getX(), b.getY() );
+                    if(b.isActive()){
+                        gc.drawImage( b.getImg(), b.getX(), b.getY() );
+                    }
                 }
             }
         }.start();
@@ -121,6 +148,9 @@ public class Game extends Application {
                     case RIGHT: goEast  = true; break;
                     case SHIFT: running = true; break;
                 }*/
+
+                checkCol();
+
                 if(event.getCode() == P){//P ?
                     System.out.println("pause");
 
@@ -180,6 +210,9 @@ public class Game extends Application {
     public void init(){
         //cam = new GCamera(0,0);
         gm = GameManager.getInstance();
+        gm.spawnBonus();
+        gm.spawnEnemy();
+        gm.spawnPlayer();
 
     }
 

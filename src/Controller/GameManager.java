@@ -30,7 +30,7 @@ public class GameManager {
 
     private int score;
     //We take position, name and score for each of highscores and store 5 highscores
-    private String[] highScores = new String[15];
+    static String[] highScores = new String[15];
 
     public Image getMapImage() {
         return mapImage;
@@ -139,7 +139,12 @@ public class GameManager {
         return (int)( Math.random()*(mapImage.getHeight()));
     }
 
-    private void checkLives(){}
+    boolean checkLives(){
+        if(p.getLives() == 0) {
+            return true;
+        }
+        return false;
+    }
 
     public void setgCamera(GCamera gCamera) {
         this.gCamera = gCamera;
@@ -180,18 +185,16 @@ public class GameManager {
     public Bonus[] getBonusList() {
         return bonusList;
     }
-    /*
-    private void loadHighScore(){
-        private Scanner data;
+
+
+    static void loadHighScore() throws FileNotFoundException{
+        Scanner data;
         //loading file
-        try {
-            data = new Scanner(new File("Highscores.txt"));
-        }
-        //To decide what to do in case of exception
-        catch (Exception e) {}
-        //int for going through highscores array
-        private int highArrayP = 0;
-        //storing data of the file in array
+
+        data = new Scanner(new File("Highscores.txt"));
+
+
+        int highArrayP = 0;
         while (data.hasNext()) {
             highScores[highArrayP] = data.next();
             highArrayP++;
@@ -199,28 +202,26 @@ public class GameManager {
         //closing the file
         data.close();
     }
-
-    private void addNewHighScore(int score, String name){
+    static void addNewHighScore(int score, String name){
         //Adding the new highscore in our array of highscores
         //We go from bottom of highscores checking for each score if our current score is greater
         //than that score or not. If it is greater we change their places, we remove last HS.
-        for(i = 14; i > 0; i = i - 3) {
-            if(highScores[i] < score) {
+        for(int i = 14; i > 0; i = i - 3) {
+            if(Integer.parseInt(highScores[i]) < score) {
                 //removing last highscore
                 if (i == 14) {
                     highScores[i] = Integer.toString(score);
-                    highscores[i-1] = name;
+                    highScores[i-1] = name;
                 }
                 //changing positions of highscore
                 else {
                     highScores[i+3] = highScores[i];
                     highScores[i+2] = highScores[i-1];
                     highScores[i] = Integer.toString(score);
-                    highscores[i-1] = name;
+                    highScores[i-1] = name;
                 }
             }
         }
-
         //now writing new HS to file
         try {
             PrintWriter hs = new PrintWriter("Highscores.txt");
@@ -231,7 +232,6 @@ public class GameManager {
         }
         catch (Exception e) {}
     }
-    */
     private void increaseScore(int point){
         score = score + point;
     }

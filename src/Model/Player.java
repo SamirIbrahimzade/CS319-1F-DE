@@ -19,7 +19,7 @@ public class Player extends GameObject {
         lives = 3;
         speed = 10;
         curDirection = 1;
-        try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRight.png")) {
+        try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRight2.png")) {
             img = new Image(inputStream);
 
         } catch (FileNotFoundException e) {
@@ -67,7 +67,7 @@ public class Player extends GameObject {
         if(direction == 2){
             if(this.curDirection == 1){
                 String imagePath = "spaceshipLeft.png";
-                try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipLeft.png")) {
+                try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipLeft2.png")) {
                     img = new Image(inputStream);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -80,7 +80,7 @@ public class Player extends GameObject {
         }
         if(direction == 3){
             if(this.curDirection == 0){
-                try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRight.png")) {
+                try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRight2.png")) {
                     img = new Image(inputStream);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
