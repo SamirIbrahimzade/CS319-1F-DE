@@ -88,6 +88,13 @@ public class GameManager {
             enemyList[i].setActive(true);
         }
     }
+    public void spawnBonus(){
+        for(int i = 0; i < bonusCount; i++){
+            bonusList[i].setX(randomXPos());
+            bonusList[i].setY(randomYPos());
+            bonusList[i].setActive(true);
+        }
+    }
     /*
     public void spawnBullet(int direction, boolean isEnemyBullet){
         if(isEnemyBullet){

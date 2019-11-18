@@ -107,7 +107,7 @@ public class Game extends Application {
 
     public void init(){
         //cam = new GCamera(0,0);
-        gm = new GameManager();
+        gm = GameManager.getInstance();
 
     }
 
