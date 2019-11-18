@@ -1,6 +1,7 @@
 package Controller;
 
 
+import Model.Enemy;
 import Model.GCamera;
 import Model.Player;
 import javafx.application.Application;
@@ -17,7 +18,7 @@ import static javafx.scene.input.KeyCode.*;
 public class Game extends Application {
 
     //GCamera cam;
-    //Player player;
+    GameManager gm;
 
 
     @Override
@@ -25,10 +26,11 @@ public class Game extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("../View/sample.fxml"));
         stage.setTitle("Defender");
 
+        init();
         Scene scene = new Scene(root, 300, 275);
 
-        //cam = new GCamera(0,0);
-        //cam.tick(player);
+
+        //cam.tick(gm.getP());
 
         //needs to be in render method
         //Graphics g = getDrawGraphics();
@@ -48,18 +50,32 @@ public class Game extends Application {
                     case RIGHT: goEast  = true; break;
                     case SHIFT: running = true; break;
                 }*/
-                if(event.getCode() == UP){
-                    System.out.println("up");
+                if(event.getCode() == P){//P ?
+                    System.out.println("pause");
+
                 }
-                else if(event.getCode() == DOWN){
-                    System.out.println("down");
+                else{
+                    if(event.getCode() == UP){
+                        System.out.println("up");
+                        gm.getP().move(0);
+                    }
+                    else if(event.getCode() == DOWN){
+                        System.out.println("down");
+                        gm.getP().move(1);
+                    }
+                    if(event.getCode() == RIGHT){
+                        System.out.println("right");
+                        gm.getP().move(3);
+                    }
+                    else if(event.getCode() == LEFT){
+                        System.out.println("left");
+                        gm.getP().move(2);
+                    }
+                    if(event.getCode() == SPACE){
+                        System.out.println("player.shoot");
+                    }
                 }
-                if(event.getCode() == RIGHT){
-                    System.out.println("right");
-                }
-                else if(event.getCode() == LEFT){
-                    System.out.println("left");
-                }
+
             }
         });
 
@@ -77,11 +93,23 @@ public class Game extends Application {
                 }*/
             }
         });
+        //enemy move and shoot
+        for(Enemy e: gm.getEnemyList()){
+            for(int i = 0; i < 5;i++){
+                e.move((int)( Math.random()*4 -1));
+            }
+            e.shoot();
+        }
 
         stage.setScene(scene);
         stage.show();
     }
 
+    public void init(){
+        //cam = new GCamera(0,0);
+        gm = new GameManager();
+
+    }
 
     public static void main(String[] args) {
 

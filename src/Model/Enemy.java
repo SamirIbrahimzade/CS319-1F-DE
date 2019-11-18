@@ -6,7 +6,19 @@ import java.io.IOException;
 
 public class Enemy extends GameObject {
 
-    final private int SPEED = 10;
+
+
+    public Enemy(){
+
+        speed = 10;
+        curDirection = 1;
+        String imagePath = "enemyImg.png";
+        try {
+            img = ImageIO.read(new File(imagePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void move(int direction){
         //if direction = 0 move UP
@@ -15,16 +27,16 @@ public class Enemy extends GameObject {
         //if direction = 3 move RIGHT
 
         if(direction == 0){
-            this.y += SPEED;
+            this.y += speed;
         }
         if(direction == 1){
-            this.y -= SPEED;
+            this.y -= speed;
         }
         if(direction == 2){
-            this.x -= SPEED;
+            this.x -= speed;
         }
         if(direction == 3){
-            this.x += SPEED;
+            this.x += speed;
         }
     }
 

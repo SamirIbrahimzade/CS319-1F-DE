@@ -7,7 +7,19 @@ import java.io.IOException;
 
 public class Player extends GameObject {
     private int lives;
-    final private int SPEED = 10;
+
+
+    public Player(){
+        lives = 3;
+        speed = 10;
+        curDirection = 1;
+        String imagePath = "spaceshipRight.png";
+        try {
+            img = ImageIO.read(new File(imagePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void shoot(){
 
@@ -29,10 +41,10 @@ public class Player extends GameObject {
         //curDirection 1 for Right
 
         if(direction == 0){
-            this.y += SPEED;
+            this.y += speed;
         }
         if(direction == 1){
-            this.y -= SPEED;
+            this.y -= speed;
         }
         if(direction == 2){
             if(this.curDirection == 1){
@@ -43,7 +55,7 @@ public class Player extends GameObject {
                     e.printStackTrace();
                 }
             }
-                this.x -= SPEED;
+                this.x -= speed;
 
         }
         if(direction == 3){
@@ -56,7 +68,7 @@ public class Player extends GameObject {
                 }
             }
 
-            this.x += SPEED;
+            this.x += speed;
         }
 
     }

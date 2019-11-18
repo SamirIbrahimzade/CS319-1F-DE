@@ -1,10 +1,14 @@
 package Controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
 import Model.*;
 import javafx.scene.image.Image;
+
+import javax.imageio.ImageIO;
 
 public class GameManager {
 
@@ -22,7 +26,7 @@ public class GameManager {
     private int score;
     //We take position, name and score for each of highscores and store 5 highscores
     private String[] highScores = new String[15];
-    GameManager(){
+    public GameManager(){
         createBonus();
         createBullet();
         createEnemy();
@@ -58,6 +62,8 @@ public class GameManager {
         p.setX((int)( mapImage.getWidth()/2 ) );
         p.setY((int)( mapImage.getHeight()/2 ) );
         p.setActive(true);
+
+        //p.setImg();
     }
 
     public void spawnEnemy(){
@@ -65,6 +71,15 @@ public class GameManager {
             enemyList[i].setX(randomXPos());
             enemyList[i].setY(randomYPos());
             enemyList[i].setActive(true);
+
+        }
+    }
+    public void spawnBonus(){
+        for(int i = 0; i < bonusCount; i++){
+            bonusList[i].setX(randomXPos());
+            bonusList[i].setY(randomYPos());
+            bonusList[i].setActive(true);
+
         }
     }
 
