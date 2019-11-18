@@ -1,5 +1,6 @@
 package Model;
 
+import Controller.GameManager;
 import javafx.scene.image.Image;
 
 import javax.imageio.ImageIO;
@@ -11,6 +12,7 @@ import java.io.IOException;
 
 public class Player extends GameObject {
     private int lives;
+    static GameManager gm = GameManager.getInstance();
 
 
     public Player(){
@@ -28,6 +30,12 @@ public class Player extends GameObject {
     }
 
     public void shoot(){
+
+        gm.getBulletList()[gm.getBulletIndex()].setCurDirection(this.curDirection);
+        gm.getBulletList()[gm.getBulletIndex()].setX(this.x);
+        gm.getBulletList()[gm.getBulletIndex()].setY(this.y);
+        gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+        gm.getBulletList()[gm.getBulletIndex()].setActive(true);
 
     }
     public void decreaseLife(){

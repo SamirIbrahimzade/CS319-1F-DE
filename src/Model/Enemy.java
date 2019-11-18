@@ -1,5 +1,6 @@
 package Model;
 
+import Controller.GameManager;
 import javafx.scene.image.Image;
 
 import javax.imageio.ImageIO;
@@ -10,6 +11,7 @@ import java.io.IOException;
 
 public class Enemy extends GameObject {
 
+    static GameManager gm = GameManager.getInstance();
 
 
     public Enemy(){
@@ -46,6 +48,10 @@ public class Enemy extends GameObject {
     }
 
     public void shoot(){
-
+        gm.getBulletList()[gm.getBulletIndex()].setCurDirection(this.curDirection);
+        gm.getBulletList()[gm.getBulletIndex()].setX(this.x);
+        gm.getBulletList()[gm.getBulletIndex()].setY(this.y);
+        gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(true);
+        gm.getBulletList()[gm.getBulletIndex()].setActive(true);
     }
 }
