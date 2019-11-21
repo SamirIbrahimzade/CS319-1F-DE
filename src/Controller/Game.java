@@ -340,8 +340,8 @@ public class Game extends Application {
                     if(event.getCode() == SPACE){
 
                         gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection);
-                        gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x);
-                        gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y);
+                        gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
+                        gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
                         gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
                         gm.getBulletList()[gm.getBulletIndex()].setActive(true);
                         gm.increaseBulletIndex();
