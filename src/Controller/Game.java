@@ -252,7 +252,7 @@ public class Game extends Application {
                 for(Bullet b: gm.getBulletList()){
                     if(b.isActive()){
                         for(int i = 0; i < 5; i++){
-                            b.move(gm.getP().getCurDirection());
+                            b.move(b.getCurDirection());
                         }
                     }
                 }
