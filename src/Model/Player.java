@@ -32,12 +32,15 @@ public class Player extends GameObject {
 
     public void shoot(){
 
+
         gm.getBulletList()[gm.getBulletIndex()].setCurDirection(this.curDirection);
         gm.getBulletList()[gm.getBulletIndex()].setX(this.x);
         gm.getBulletList()[gm.getBulletIndex()].setY(this.y);
         gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
         gm.getBulletList()[gm.getBulletIndex()].setActive(true);
         gm.increaseBulletIndex();
+        System.out.println(gm.getBulletIndex() + " is fired");
+
 
     }
 

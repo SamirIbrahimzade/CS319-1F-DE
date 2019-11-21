@@ -83,7 +83,7 @@ public class Game extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 stage.setScene(scene);
-               // stage.setMaximized(true);
+                // stage.setMaximized(true);
             }
         });
 
@@ -92,7 +92,10 @@ public class Game extends Application {
         VBox mainLayout = new VBox(10);
 
         mainLayout.setAlignment(Pos.TOP_CENTER);
-
+        //added
+        title.setTextFill(Color.WHITE);
+        //1300 720
+        mainLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
         mainLayout.getChildren().addAll(
                 title,
                 gameButton,
@@ -114,9 +117,20 @@ public class Game extends Application {
         Label person3 = new Label("Taner Durmaz");
         Label person4 = new Label("Hassan ");
         Label person5 = new Label("Samir Ibrahimzade");
+        person1.setTextFill(Color.WHITE);
+        person1.setFont(Font.font(20));
+        person2.setTextFill(Color.WHITE);
+        person2.setFont(Font.font(20));
+        person3.setTextFill(Color.WHITE);
+        person3.setFont(Font.font(20));
+        person4.setTextFill(Color.WHITE);
+        person4.setFont(Font.font(20));
+        person5.setTextFill(Color.WHITE);
+        person5.setFont(Font.font(20));
 
         VBox creditsLayout = new VBox(10);
-
+        //added
+        creditsLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
 
 
         creditsScene = new Scene(creditsLayout,1024,576);
@@ -132,7 +146,8 @@ public class Game extends Application {
 
         TextField enterName = new TextField();
         Label over = new Label("GAME OVER! \n \n" + "Your Score: " + gm.getScore() + "\n \nenter name: ");
-        over.setTextFill(Color.BLACK);
+        over.setTextFill(Color.WHITE);
+        over.setFont(Font.font(20));
         over.setTranslateX(WIDTH / 2 - 25);
         over.setTranslateY(HEIGHT / 3);
         enterName.setTranslateX(WIDTH / 2 - 25);
@@ -144,6 +159,8 @@ public class Game extends Application {
         enterButton.setTranslateY(HEIGHT / 3);
         enterButton.setOnAction(e -> stage.setScene(highScene));
         VBox endLayout = new VBox();
+        //added
+        endLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
         endLayout.getChildren().addAll(over, enterName, enterButton);
         endScene = new Scene(endLayout, WIDTH, HEIGHT);
 ///////////////////////////////////////////////////////
@@ -159,11 +176,19 @@ public class Game extends Application {
         scores2.setTranslateY(HEIGHT / 3);
         scores3.setTranslateX(WIDTH / 2 - 25);
         scores3.setTranslateY(HEIGHT / 3);
+        scores1.setTextFill(Color.WHITE);
+        scores1.setFont(Font.font(20));
+        scores2.setTextFill(Color.WHITE);
+        scores2.setFont(Font.font(20));
+        scores3.setTextFill(Color.WHITE);
+        scores3.setFont(Font.font(20));
         Button menuButton = new Button("Go To Main Menu");
         menuButton.setTranslateX(WIDTH / 2 - 25);
         menuButton.setTranslateY(HEIGHT / 3);
         menuButton.setOnAction(e -> stage.setScene(mainScene));
         VBox highLayout = new VBox();
+        //added
+        highLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
         highLayout.getChildren().addAll(scores1, scores2, scores3, menuButton);
         highScene = new Scene(highLayout, WIDTH, HEIGHT);
 
