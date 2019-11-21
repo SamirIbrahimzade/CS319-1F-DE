@@ -22,10 +22,10 @@ public class Bullet extends GameObject {
 
     public void move(int direction){
 
-        if(direction == 0){
+        if(direction == 1){
             this.x += speed;
         }
-        if(direction == 1){
+        if(direction == 0){
             this.x -= speed;
         }
     }
