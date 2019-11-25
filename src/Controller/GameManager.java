@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 public class GameManager {
     private static GameManager gm = null;
 
-    private int enemyCount = 20;
+    private int enemyCount = 10;
 
     private int bulletCount = 80;
     private int bulletIndex = 0;

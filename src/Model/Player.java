@@ -17,7 +17,7 @@ public class Player extends GameObject {
 
     public Player(){
         lives = 3;
-        speed = 10;
+        speed = 1;
         curDirection = 1;
         try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRight4.png")) {
             img = new Image(inputStream);
@@ -42,7 +42,7 @@ public class Player extends GameObject {
         return lives;
     }
 
-    public void move(int direction){
+    public void move(int direction,int speed){
 
         //if direction = 0 move UP
         //if direction = 1 move DOWN

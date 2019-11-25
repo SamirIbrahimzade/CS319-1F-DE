@@ -21,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
@@ -37,7 +38,7 @@ public class Game extends Application {
     private static final int WIDTH = 1200;
     private static final int HEIGHT = 800;
 
-    //GCamera cam;
+    GCamera cam;
     //Player player;
     static GameManager gm;
 
@@ -210,8 +211,8 @@ public class Game extends Application {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 
-        //cam = new GCamera(0,0);
-        //cam.tick(player);
+        cam = new GCamera(0,0);
+        cam.tick(gm.getP());
 
         //needs to be in render method
         //Graphics g = getDrawGraphics();
@@ -223,9 +224,16 @@ public class Game extends Application {
         Canvas canvas = new Canvas( 1920, 1080 );
 
 
+
         root.getChildren().add( canvas );
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
+
+
+
+        gc.translate(-750,0);
+
+        gc.scale(2,1);
 
         final long startNanoTime = System.nanoTime();
 
@@ -233,6 +241,8 @@ public class Game extends Application {
         {
             public void handle(long currentNanoTime)
             {
+
+
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
 
                 //enemy move and shoot
@@ -257,9 +267,26 @@ public class Game extends Application {
                     }
                 }
 
+
+                if(gm.getP().getCurDirection() == 1){
+                    gc.translate(-1,0);
+                    gm.getP().move(3,1);
+                }
+
+                else {
+                    gc.translate(1, 0);
+                    gm.getP().move(2,1);
+                }
+
+
+                //gc.translate(100,100);
+
+                //gc.translate(-cam.getX(),-cam.getY());
+
                 gc.drawImage(gm.getMapImage(),0,0) ;
                 if(gm.getP().isActive()){
-                    gc.drawImage( gm.getP().getImg(), gm.getP().getX(), gm.getP().getY() );
+                    gc.drawImage( gm.getP().getImg(), gm.getP().getX(), gm.getP().getY());
+
                 }
 
                 for(Enemy e: gm.getEnemyList()){
@@ -321,20 +348,24 @@ public class Game extends Application {
                 else{
                     if(event.getCode() == UP){
                         System.out.println("up");
-                        gm.getP().move(0);
+                        gm.getP().move(0,10);
                     }
                     if(event.getCode() == DOWN){
                         System.out.println("down");
-                        gm.getP().move(1);
+                        gm.getP().move(1,10);
                     }
                     if(event.getCode() == RIGHT){
+                     //   if(gm.getP().getCurDirection() == 0)
+                            gc.translate(-10,0);
                         System.out.println("right");
-                        gm.getP().move(3);
+                        gm.getP().move(3,10);
                         gm.getP().setCurDirection(1);
                     }
                     if(event.getCode() == LEFT){
+                     //   if(gm.getP().getCurDirection() == 1)
+                            gc.translate(10,0);
                         System.out.println("left");
-                        gm.getP().move(2);
+                        gm.getP().move(2,10);
                         gm.getP().setCurDirection(0);
                     }
                     if(event.getCode() == SPACE){
@@ -377,8 +408,9 @@ public class Game extends Application {
         //cam = new GCamera(0,0);
         gm = GameManager.getInstance();
         gm.spawnBonus();
-        gm.spawnEnemy();
+
         gm.spawnPlayer();
+        gm.spawnEnemy();
 
     }
 
@@ -421,13 +453,14 @@ public class Game extends Application {
                 int heightEnemy = (int) enemy.getImg().getHeight();
                 for (Bullet bullet : gm.getBulletList()) {
                     if (!bullet.isEnemyBullet() && bullet.isActive()) {
-
+                        //System.out.println("enemy fired");
                         // the condition when the player bullet location is inside the rectangle of enemy
                         if (Math.abs(bullet.getX() - enemy.getX()) < widthEnemy / 2
                                 && Math.abs(bullet.getY() - player.getY()) < heightEnemy / 2) {
 
                             // 1) destroy the player bullet
                             // 2) destroy the enemy
+                            System.out.println("COLLISION");
 
                             gm.increaseScore();
                             enemy.setActive(false);
@@ -459,6 +492,7 @@ public class Game extends Application {
                     // 1) destroy the enemy
                     // 2) decrease the player's life
 
+                    System.out.println("Collapse with enemy");
                     enemy.setActive(false);
                     player.decreaseLife();
 
