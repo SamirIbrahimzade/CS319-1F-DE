@@ -242,7 +242,7 @@ public class Game extends Application {
             public void handle(long currentNanoTime)
             {
 
-
+                checkCol();
                 double t = (currentNanoTime - startNanoTime) / 1000000000.0;
 
                 //enemy move and shoot
@@ -332,7 +332,7 @@ public class Game extends Application {
                     e.shoot();
                 }
 
-                checkCol();
+
 
                 if(gm.checkLives()){
                     stage.setScene(endScene);
