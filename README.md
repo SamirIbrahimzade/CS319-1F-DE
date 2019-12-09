@@ -23,3 +23,5 @@ Final Report - https://docs.google.com/document/d/17Do2CIC7jrkVkxETG48uIDI-D8P6c
 <br/>
 Analysis Report 2 - https://docs.google.com/document/d/1rExIrap8o_9qCqmceZkg0rNUNQ4hC-11pLqqUrK_C7o/edit?usp=sharing
 <br/>
+Design Report 2 - https://docs.google.com/document/d/1p_nW46gfbBcKjPZAIuTVI0DScuu-m8YpPQALGR5QjOM/edit?usp=sharing
+<br/>
