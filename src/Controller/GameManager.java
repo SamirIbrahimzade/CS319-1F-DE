@@ -220,7 +220,7 @@ public class GameManager {
         }
         //now writing new HS to file
         try {
-            PrintWriter hs = new PrintWriter("Highscores.txt");
+            PrintWriter hs = new PrintWriter("MediaFiles/Highscores.txt");
             for(int i = 0; i < 15; i++) {
                 hs.println(highScores[i]);
             }

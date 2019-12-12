@@ -27,7 +27,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import static javafx.scene.input.KeyCode.*;
@@ -37,12 +37,12 @@ public class Game extends Application {
 
     private static final int WIDTH = 1200;
     private static final int HEIGHT = 800;
-
+    int pauser = 1;
     GCamera cam;
     //Player player;
     static GameManager gm;
 
-    Scene mainScene, creditsScene, scene, endScene,highScene;
+    Scene mainScene, creditsScene, scene, endScene,highScene,pauseScene;
 
     Pane root;
 
@@ -84,6 +84,7 @@ public class Game extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 stage.setScene(scene);
+                pauser = 0;
                 // stage.setMaximized(true);
             }
         });
@@ -145,38 +146,27 @@ public class Game extends Application {
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-        TextField enterName = new TextField();
-        Label over = new Label("GAME OVER! \n \n" + "Your Score: " + gm.getScore() + "\n \nenter name: ");
-        over.setTextFill(Color.WHITE);
-        over.setFont(Font.font(20));
-        over.setTranslateX(WIDTH / 2 - 25);
-        over.setTranslateY(HEIGHT / 3);
-        enterName.setTranslateX(WIDTH / 2 - 25);
-        enterName.setTranslateY(HEIGHT / 3);
-        enterName.setAlignment(Pos.CENTER);
-        enterName.setMaxWidth(100);
-        Button enterButton = new Button("ENTER");
-        enterButton.setTranslateX(WIDTH / 2 - 25);
-        enterButton.setTranslateY(HEIGHT / 3);
-        enterButton.setOnAction(e -> stage.setScene(highScene));
-        VBox endLayout = new VBox();
+//        TextField enterName = new TextField();
+//        Label over = new Label("GAME OVER! \n \n" + "Your Score: " + gm.getScore() + "\n \nenter name: ");
+//        over.setTextFill(Color.WHITE);
+//        over.setFont(Font.font(20));
+//        enterName.setAlignment(Pos.CENTER);
+//        enterName.setMaxWidth(100);
+//        Button enterButton = new Button("ENTER");
+//        enterButton.setOnAction(e -> stage.setScene(highScene));
+//        VBox endLayout = new VBox();
         //added
-        endLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
-        endLayout.getChildren().addAll(over, enterName, enterButton);
-        endScene = new Scene(endLayout, WIDTH, HEIGHT);
+//        endLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
+//        endLayout.getChildren().addAll(over, enterName, enterButton);
+//        endScene = new Scene(endLayout, WIDTH, HEIGHT);
+  //      endLayout.setAlignment(Pos.CENTER);
 ///////////////////////////////////////////////////////
 
         gm.loadHighScore();
         String[] high = gm.getHighScores();
-        Label scores1 = new Label("HIGH SCORES \n \n" + high[0]+" "+high[1]+" "+high[2]);
-        Label scores2 = new Label(high[3]+" "+high[4]+" "+high[5]+"\n"+high[6]+" "+high[7]+" "+high[8]);
+        Label scores1 = new Label("HIGH SCORES \n \n\n\n");
+        Label scores2 = new Label(high[0]+" "+high[1]+" "+high[2]+"\n"+high[3]+" "+high[4]+" "+high[5]+"\n"+high[6]+" "+high[7]+" "+high[8]);
         Label scores3 = new Label(high[9]+" "+high[10]+" "+high[11]+"\n"+high[12]+" "+high[13]+" "+high[14]);
-        scores1.setTranslateX(WIDTH / 2 - 25);
-        scores1.setTranslateY(HEIGHT / 3);
-        scores2.setTranslateX(WIDTH / 2 - 25);
-        scores2.setTranslateY(HEIGHT / 3);
-        scores3.setTranslateX(WIDTH / 2 - 25);
-        scores3.setTranslateY(HEIGHT / 3);
         scores1.setTextFill(Color.WHITE);
         scores1.setFont(Font.font(20));
         scores2.setTextFill(Color.WHITE);
@@ -184,15 +174,13 @@ public class Game extends Application {
         scores3.setTextFill(Color.WHITE);
         scores3.setFont(Font.font(20));
         Button menuButton = new Button("Go To Main Menu");
-        menuButton.setTranslateX(WIDTH / 2 - 25);
-        menuButton.setTranslateY(HEIGHT / 3);
         menuButton.setOnAction(e -> stage.setScene(mainScene));
-        VBox highLayout = new VBox();
+        VBox highLayout = new VBox(10);
         //added
         highLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
         highLayout.getChildren().addAll(scores1, scores2, scores3, menuButton);
         highScene = new Scene(highLayout, WIDTH, HEIGHT);
-
+        highLayout.setAlignment(Pos.CENTER);
         Button menuButtonForCredits = new Button("Go To Main Menu");
 
         menuButtonForCredits.setOnAction(e -> stage.setScene(mainScene));
@@ -241,70 +229,71 @@ public class Game extends Application {
         {
             public void handle(long currentNanoTime)
             {
+            	if (pauser == 0) {
+            		checkCol();
+                    double t = (currentNanoTime - startNanoTime) / 1000000000.0;
 
-                checkCol();
-                double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-
-                //enemy move and shoot
-                for(Enemy e: gm.getEnemyList()){
-                    if(e.isActive()){
-                        int max = 4;
-                        int min = 0;
-                        int range = max - min + 1;
-                        int rand = (int)(Math.random() * range) + min;
-                        for(int i = 0; i < 70000; i++){
-                            e.move(rand);
-                        }
-                        e.shoot();
-                    }
-                }
-                //bullet move
-                for(Bullet b: gm.getBulletList()){
-                    if(b.isActive()){
-                        for(int i = 0; i < 5; i++){
-                            b.move(b.getCurDirection());
+                    //enemy move and shoot
+                    for(Enemy e: gm.getEnemyList()){
+                        if(e.isActive()){
+                            int max = 4;
+                            int min = 0;
+                            int range = max - min + 1;
+                            int rand = (int)(Math.random() * range) + min;
+                            for(int i = 0; i < 70000; i++){
+                                e.move(rand);
+                            }
+                            e.shoot();
                         }
                     }
-                }
+                    //bullet move
+                    for(Bullet b: gm.getBulletList()){
+                        if(b.isActive()){
+                            for(int i = 0; i < 5; i++){
+                                b.move(b.getCurDirection());
+                            }
+                        }
+                    }
 
 
-                if(gm.getP().getCurDirection() == 1){
-                    gc.translate(-1,0);
-                    gm.getP().move(3,1);
-                }
+                    if(gm.getP().getCurDirection() == 1){
+                        gc.translate(-1,0);
+                        gm.getP().move(3,1);
+                    }
 
-                else {
-                    gc.translate(1, 0);
-                    gm.getP().move(2,1);
-                }
+                    else {
+                        gc.translate(1, 0);
+                        gm.getP().move(2,1);
+                    }
 
 
-                //gc.translate(100,100);
+                    //gc.translate(100,100);
 
-                //gc.translate(-cam.getX(),-cam.getY());
+                    //gc.translate(-cam.getX(),-cam.getY());
 
-                gc.drawImage(gm.getMapImage(),0,0) ;
-                if(gm.getP().isActive()){
-                    gc.drawImage( gm.getP().getImg(), gm.getP().getX(), gm.getP().getY());
-
-                }
-
-                for(Enemy e: gm.getEnemyList()){
-                    if(e.isActive()){
-                        gc.drawImage( e.getImg(), e.getX(), e.getY() );
+                    gc.drawImage(gm.getMapImage(),0,0) ;
+                    if(gm.getP().isActive()){
+                        gc.drawImage( gm.getP().getImg(), gm.getP().getX(), gm.getP().getY());
 
                     }
-                }
-                for(Bullet b: gm.getBulletList()){
-                    if(b.isActive()){
-                        gc.drawImage( b.getImg(), b.getX(), b.getY() );
+
+                    for(Enemy e: gm.getEnemyList()){
+                        if(e.isActive()){
+                            gc.drawImage( e.getImg(), e.getX(), e.getY() );
+
+                        }
                     }
-                }
-                for(Bonus b: gm.getBonusList()){
-                    if(b.isActive()){
-                        gc.drawImage( b.getImg(), b.getX(), b.getY() );
+                    for(Bullet b: gm.getBulletList()){
+                        if(b.isActive()){
+                            gc.drawImage( b.getImg(), b.getX(), b.getY() );
+                        }
                     }
-                }
+                    for(Bonus b: gm.getBonusList()){
+                        if(b.isActive()){
+                            gc.drawImage( b.getImg(), b.getX(), b.getY() );
+                        }
+                    }
+            	} 
             }
         }.start();
 
@@ -335,6 +324,27 @@ public class Game extends Application {
 
 
                 if(gm.checkLives()){
+                	TextField enterName = new TextField();
+                    Label over = new Label("GAME OVER! \n \n" + "Your Score: " + gm.getScore() + "\n \nenter name: ");
+                    over.setTextFill(Color.WHITE);
+                    over.setFont(Font.font(20));
+                    enterName.setAlignment(Pos.CENTER);
+                    enterName.setMaxWidth(100);
+                    Button enterButton = new Button("ENTER");
+                    enterButton.setOnAction(e -> {
+						try {
+							high(enterName.getText(),gm.getScore(),stage);
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					});
+                    VBox endLayout = new VBox();
+                    endLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
+                    endLayout.getChildren().addAll(over, enterName, enterButton);
+                    endScene = new Scene(endLayout, WIDTH, HEIGHT);
+                    endLayout.setAlignment(Pos.CENTER);
+                    
                     stage.setScene(endScene);
                     stage.show();
                 }
@@ -342,6 +352,26 @@ public class Game extends Application {
 
 
                 if(event.getCode() == P){//P ?
+                	Label pause = new Label("PAUSE \n");
+                    Button homeButton = new Button("EXIT");
+                    Button resumeButton = new Button("RESUME");
+                    VBox pauseLayout = new VBox();
+                    homeButton.setOnAction(e -> end(stage));
+                    pauseLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
+                    pauseLayout.getChildren().addAll(pause,homeButton,resumeButton);
+                    pauseLayout.setAlignment(Pos.CENTER);
+                    pauseScene = new Scene(pauseLayout, WIDTH,HEIGHT);
+                    stage.setScene(pauseScene);
+                    pauser = 1;
+                    resumeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            stage.setScene(scene);
+                            pauser = 0;
+                            // stage.setMaximized(true);
+                        }
+                    });
+                    
                     System.out.println("pause");
 
                 }
@@ -403,7 +433,38 @@ public class Game extends Application {
         // stage.show();
     }
 
+    public void end(Stage stage) {
+    	pauser = 0;
+    	stage.setScene(mainScene);
+    }
+    public void high(String nam, int sco, Stage stage) throws FileNotFoundException {
+    	gm.addNewHighScore(sco, nam);
+    	gm.loadHighScore();
+        String[] high = gm.getHighScores();
+        Label scores1 = new Label("HIGH SCORES \n\n\n \n"  );
+        Label scores2 = new Label(high[0]+" "+high[1]+" "+high[2]+"\n"+high[3]+" "+high[4]+" "+high[5]+"\n"+high[6]+" "+high[7]+" "+high[8]);
+        Label scores3 = new Label(high[9]+" "+high[10]+" "+high[11]+"\n"+high[12]+" "+high[13]+" "+high[14]);
+        scores1.setTextFill(Color.WHITE);
+        scores1.setFont(Font.font(20));
+        scores2.setTextFill(Color.WHITE);
+        scores2.setFont(Font.font(20));
+        scores3.setTextFill(Color.WHITE);
+        scores3.setFont(Font.font(20));
+        Button menuButton = new Button("Go To Main Menu");
+        menuButton.setOnAction(e -> stage.setScene(mainScene));
+        VBox highLayout = new VBox(10);
+        highLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
+        highLayout.getChildren().addAll(scores1, scores2, scores3, menuButton);
+        highScene = new Scene(highLayout, 1024, 576);
 
+        Button menuButtonForCredits = new Button("Go To Main Menu");
+
+        menuButtonForCredits.setOnAction(e -> stage.setScene(mainScene));
+
+        highLayout.setAlignment(Pos.CENTER);
+    	stage.setScene(highScene);
+    }
+    
     public void init(){
         //cam = new GCamera(0,0);
         gm = GameManager.getInstance();
