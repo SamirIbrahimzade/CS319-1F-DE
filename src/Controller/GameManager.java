@@ -38,7 +38,7 @@ public class GameManager {
         return mapImage;
     }
 
-    private GameManager(){
+    public GameManager(){
         createBonus();
         createBullet();
         createEnemy();

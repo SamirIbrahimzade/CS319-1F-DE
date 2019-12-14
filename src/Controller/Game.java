@@ -37,7 +37,8 @@ public class Game extends Application {
 
     private static final int WIDTH = 1200;
     private static final int HEIGHT = 800;
-    int pauser = 1;
+    int pauser = 1,newGame = 0;
+    float endPosition = 250;
     GCamera cam;
     //Player player;
     static GameManager gm;
@@ -51,6 +52,15 @@ public class Game extends Application {
         // root = FXMLLoader.load(getClass().getResource("../View/sample.fxml"));
 
         root = new Pane();
+        gm = new GameManager();
+
+        Canvas canvas = new Canvas( 1920, 1080 );
+
+        root.getChildren().add( canvas );
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+
 
 
         stage.setWidth(1024);
@@ -83,6 +93,28 @@ public class Game extends Application {
         gameButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+               // init();
+
+                pauser = 0;
+                    //cam = new GCamera(0,0);
+                System.out.println("New Game");
+                gm = new GameManager();
+                gm.spawnBonus();
+
+                gm.spawnPlayer();
+                gm.spawnEnemy();
+
+
+                gc.translate((endPosition-250)-300,0);
+                System.out.println(endPosition + "    " + ((endPosition-250)-300) );
+              //  if(newGame == 1)gc.translate(-750,0);
+                newGame = 1;
+
+
+
+                //gc.scale(2,1);
+
+
                 stage.setScene(scene);
                 pauser = 0;
                 // stage.setMaximized(true);
@@ -199,6 +231,8 @@ public class Game extends Application {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 
+        gc.scale(1.5,1);
+
         cam = new GCamera(0,0);
         cam.tick(gm.getP());
 
@@ -209,19 +243,7 @@ public class Game extends Application {
         //handler.render(g);
         //g2d.translate(-cam.getX(),-cam.getY());
 
-        Canvas canvas = new Canvas( 1920, 1080 );
 
-
-
-        root.getChildren().add( canvas );
-
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
-
-
-        gc.translate(-750,0);
-
-        gc.scale(2,1);
 
         final long startNanoTime = System.nanoTime();
 
@@ -324,6 +346,8 @@ public class Game extends Application {
 
 
                 if(gm.checkLives()){
+                    pauser = 1;
+                    endPosition = gm.getP().getX();
                 	TextField enterName = new TextField();
                     Label over = new Label("GAME OVER! \n \n" + "Your Score: " + gm.getScore() + "\n \nenter name: ");
                     over.setTextFill(Color.WHITE);
@@ -357,15 +381,18 @@ public class Game extends Application {
                     Button resumeButton = new Button("RESUME");
                     VBox pauseLayout = new VBox();
                     homeButton.setOnAction(e -> end(stage));
+                    endPosition = gm.getP().getX();
                     pauseLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
                     pauseLayout.getChildren().addAll(pause,homeButton,resumeButton);
                     pauseLayout.setAlignment(Pos.CENTER);
                     pauseScene = new Scene(pauseLayout, WIDTH,HEIGHT);
                     stage.setScene(pauseScene);
                     pauser = 1;
+
                     resumeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent mouseEvent) {
+
                             stage.setScene(scene);
                             pauser = 0;
                             // stage.setMaximized(true);
@@ -434,7 +461,7 @@ public class Game extends Application {
     }
 
     public void end(Stage stage) {
-    	pauser = 0;
+    	//pauser = 0;
     	stage.setScene(mainScene);
     }
     public void high(String nam, int sco, Stage stage) throws FileNotFoundException {
@@ -463,16 +490,6 @@ public class Game extends Application {
 
         highLayout.setAlignment(Pos.CENTER);
     	stage.setScene(highScene);
-    }
-    
-    public void init(){
-        //cam = new GCamera(0,0);
-        gm = GameManager.getInstance();
-        gm.spawnBonus();
-
-        gm.spawnPlayer();
-        gm.spawnEnemy();
-
     }
 
     void checkCol() {
@@ -581,6 +598,17 @@ public class Game extends Application {
         }
 
     }
+    /*
+    public void init(){
+        //cam = new GCamera(0,0);
+        gm = GameManager.getInstance();
+        gm.spawnBonus();
+
+        gm.spawnPlayer();
+        gm.spawnEnemy();
+
+    }
+*/
     public static void main(String[] args) {
 
         launch(args);
