@@ -37,13 +37,14 @@ public class Game extends Application {
 
     private static final int WIDTH = 1200;
     private static final int HEIGHT = 800;
-    int pauser = 1,newGame = 0;
+    int pauser = 1,newGame = 0,destroyedEnemy = 0;
+    int onlyOnce = 0;
     float endPosition = 250;
     GCamera cam;
     //Player player;
     static GameManager gm;
 
-    Scene mainScene, creditsScene, scene, endScene,highScene,pauseScene;
+    Scene mainScene, creditsScene, scene, endScene,highScene,pauseScene,levelScene;
 
     Pane root;
 
@@ -252,6 +253,38 @@ public class Game extends Application {
             public void handle(long currentNanoTime)
             {
             	if (pauser == 0) {
+
+            	    if(destroyedEnemy %3 == 0 && destroyedEnemy != 0 && onlyOnce == 0){
+                        System.out.println("destroyed enemy " + destroyedEnemy);
+            	        System.out.println("Level " + destroyedEnemy/3 + " passed!");
+            	        gm.setKillScore(((destroyedEnemy % 3) + 1)*500);
+            	        onlyOnce = 1;
+
+            	        pauser = 1;
+                        Label level = new Label("Level " + destroyedEnemy/3 + " passed! \n");
+                        level.setTextFill(Color.WHITE);
+                        Button resumeButton = new Button("Continue");
+                        VBox levelLayout = new VBox();
+                        endPosition = gm.getP().getX();
+                        levelLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
+                        levelLayout.getChildren().addAll(level,resumeButton);
+                        levelLayout.setAlignment(Pos.CENTER);
+                        levelScene = new Scene(levelLayout, WIDTH,HEIGHT);
+                        stage.setScene(levelScene);
+
+                        resumeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent mouseEvent) {
+
+                                stage.setScene(scene);
+                                pauser = 0;
+                                // stage.setMaximized(true);
+                            }
+                        });
+
+                    }
+
+
             		checkCol();
                     double t = (currentNanoTime - startNanoTime) / 1000000000.0;
 
@@ -539,6 +572,8 @@ public class Game extends Application {
                             // 1) destroy the player bullet
                             // 2) destroy the enemy
                             System.out.println("COLLISION");
+                            if(destroyedEnemy %3 == 0 && destroyedEnemy != 0)onlyOnce = 0;
+                            destroyedEnemy++;
 
                             gm.increaseScore();
                             enemy.setActive(false);

@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 public class GameManager {
     private static GameManager gm = null;
 
-    private int enemyCount = 10;
+    private int enemyCount = 15;
 
     private int bulletCount = 80;
     private int bulletIndex = 0;
@@ -229,6 +229,9 @@ public class GameManager {
         catch (Exception e) {}
     }
 
+    public void setKillScore(int killScore) {
+        this.killScore = killScore;
+    }
 
     private void increaseLevel(){
         level++;
