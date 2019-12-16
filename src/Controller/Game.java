@@ -12,6 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -32,7 +33,7 @@ public class Game extends Application {
     float endPosition = 250;
     private GCamera cam;
     static GameManager gm;
-
+    private boolean goUP = false, goDown = false, goRight = false, goLeft = false;
     Scene mainScene, creditsScene, scene, endScene,highScene,pauseScene,levelScene;
     Pane root;
 
@@ -193,6 +194,30 @@ public class Game extends Application {
                         });
                     }
                     checkCol();
+                    //player move
+                    if(goUP){
+                        System.out.println("up");
+                        gm.getP().move(0,2);
+                    }
+                    if(goDown){
+                        System.out.println("down");
+                        gm.getP().move(1,2);
+                    }
+                    if(goRight){
+                        // if(gm.getP().getCurDirection() == 0)
+                        gc.translate(-2,0);
+                        System.out.println("right");
+                        gm.getP().move(3,2);
+                        gm.getP().setCurDirection(1);
+                    }
+                    if(goLeft){
+                        // if(gm.getP().getCurDirection() == 1)
+                        gc.translate(2,0);
+                        System.out.println("left");
+                        gm.getP().move(2,2);
+                        gm.getP().setCurDirection(0);
+                    }
+
                     double t = (currentNanoTime - startNanoTime) / 1000000000.0;
 
                     //enemy move and shoot
@@ -205,7 +230,7 @@ public class Game extends Application {
                             for (int i = 0; i < 70000; i++) {
                                 e.move(rand);
                             }
-                            max = 100;
+                            max = 1000;
                             range = max - min + 1;
                             rand = (int) (Math.random() * range) + min;
                             if(rand < 1){
@@ -316,28 +341,14 @@ public class Game extends Application {
                     });
                 }
                 else{
-                    if(event.getCode() == UP){
-                        System.out.println("up");
-                        gm.getP().move(0,10);
+
+                    switch (event.getCode()) {
+                        case UP:    goUP = true; break;
+                        case DOWN:  goDown = true; break;
+                        case LEFT:  goLeft  = true; break;
+                        case RIGHT: goRight  = true; break;
                     }
-                    if(event.getCode() == DOWN){
-                        System.out.println("down");
-                        gm.getP().move(1,10);
-                    }
-                    if(event.getCode() == RIGHT){
-                        // if(gm.getP().getCurDirection() == 0)
-                        gc.translate(-10,0);
-                        System.out.println("right");
-                        gm.getP().move(3,10);
-                        gm.getP().setCurDirection(1);
-                    }
-                    if(event.getCode() == LEFT){
-                        // if(gm.getP().getCurDirection() == 1)
-                        gc.translate(10,0);
-                        System.out.println("left");
-                        gm.getP().move(2,10);
-                        gm.getP().setCurDirection(0);
-                    }
+
                     if(event.getCode() == SPACE){
                         gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection);
                         gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
@@ -347,6 +358,18 @@ public class Game extends Application {
                         gm.increaseBulletIndex();
                         System.out.println(gm.getBulletIndex() + " is fired");
                     }
+                }
+            }
+        });
+
+        scene.setOnKeyReleased(new EventHandler<javafx.scene.input.KeyEvent>() {
+            @Override
+            public void handle(javafx.scene.input.KeyEvent event) {
+                switch (event.getCode()) {
+                    case UP:    goUP = false; break;
+                    case DOWN:  goDown = false; break;
+                    case LEFT:  goLeft = false; break;
+                    case RIGHT: goRight  = false; break;
                 }
             }
         });
