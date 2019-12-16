@@ -13,7 +13,6 @@ public class Enemy extends GameObject {
 
     static GameManager gm = GameManager.getInstance();
 
-
     public Enemy(){
 
         speed = 1;
@@ -46,7 +45,7 @@ public class Enemy extends GameObject {
             this.x += 0.0001;
         }
     }
-
+    /*
     public void shoot(){
         gm.getBulletList()[gm.getBulletIndex()].setCurDirection(this.curDirection);
         gm.getBulletList()[gm.getBulletIndex()].setX(this.x);
@@ -54,5 +53,5 @@ public class Enemy extends GameObject {
         gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(true);
         gm.getBulletList()[gm.getBulletIndex()].setActive(true);
         gm.increaseBulletIndex();
-    }
+    }*/
 }

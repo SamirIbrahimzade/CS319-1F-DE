@@ -205,7 +205,17 @@ public class Game extends Application {
                             for (int i = 0; i < 70000; i++) {
                                 e.move(rand);
                             }
-                            e.shoot();
+                            max = 100;
+                            range = max - min + 1;
+                            rand = (int) (Math.random() * range) + min;
+                            if(rand < 1){
+                                gm.getBulletList()[gm.getBulletIndex()].setCurDirection(e.curDirection);
+                                gm.getBulletList()[gm.getBulletIndex()].setX(e.x);
+                                gm.getBulletList()[gm.getBulletIndex()].setY(e.y);
+                                gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(true);
+                                gm.getBulletList()[gm.getBulletIndex()].setActive(true);
+                                gm.increaseBulletIndex();
+                            }
                         }
                     }
                     //bullet move
@@ -278,7 +288,6 @@ public class Game extends Application {
                 }
             }
         }.start();
-
 
         scene.setOnKeyPressed(new EventHandler<javafx.scene.input.KeyEvent>() {
             @Override
