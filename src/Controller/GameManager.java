@@ -13,12 +13,9 @@ public class GameManager {
     private static GameManager gm = null;
 
     private int enemyCount = 15;
-
     private int bulletCount = 80;
     private int bulletIndex = 0;
-
     private int bonusCount = 5;
-
     private int playerSafeDistance;
     private GCamera gCamera;
     private int level;
@@ -27,7 +24,6 @@ public class GameManager {
     private Enemy[] enemyList;
     private Player p;
     private Bonus[] bonusList;
-
     private int killScore = 500;
 
     private int score = 0;
