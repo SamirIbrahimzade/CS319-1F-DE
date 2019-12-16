@@ -381,6 +381,9 @@ public class Game extends Application {
         Player player = gm.getP();
         int widthPlayer = (int) player.getImg().getWidth();
         int heightPlayer = (int) player.getImg().getHeight();
+        Bullet dummyBuullet = new Bullet();
+        int widthBullet = (int) dummyBuullet.getImg().getWidth();
+        int heightBullet = (int) dummyBuullet.getImg().getHeight();
         for (Bullet bullet : gm.getBulletList()) {
             // the bullet must be an enemy bullet
             if (bullet.isEnemyBullet() && bullet.isActive()) {
@@ -404,8 +407,8 @@ public class Game extends Application {
                 for (Bullet bullet : gm.getBulletList()) {
                     if (!bullet.isEnemyBullet() && bullet.isActive()) {
                         // the condition when the player bullet location is inside the rectangle of enemy
-                        if (Math.abs(bullet.getX() - enemy.getX()) < widthEnemy / 2
-                                && Math.abs(bullet.getY() - player.getY()) < heightEnemy / 2) {
+                        if (Math.abs(enemy.getX() - bullet.getX()) < (widthBullet / 2 + widthEnemy / 2)
+                                && Math.abs(enemy.getY() - bullet.getY()) < (heightBullet / 2 + heightEnemy / 2)) {
                             // 1) destroy the player bullet
                             // 2) destroy the enemy
                             if(destroyedEnemy %3 == 0 && destroyedEnemy != 0)onlyOnce = 0;
