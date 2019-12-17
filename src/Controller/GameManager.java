@@ -15,6 +15,8 @@ public class GameManager {
     private int enemyCount = 15;
     private int bulletCount = 80;
     private int bulletIndex = 0;
+    private int bonusIndex = 0;
+    private int titaniumIndex = 0;
     private int bonusCount = 5;
     private int playerSafeDistance;
     private GCamera gCamera;
