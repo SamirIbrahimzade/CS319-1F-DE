@@ -11,7 +11,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Player extends GameObject {
+    private int maxLives;
     private int lives;
+    private int weapon;
     static GameManager gm = GameManager.getInstance();
 
 
@@ -19,6 +21,7 @@ public class Player extends GameObject {
         lives = 3;
         speed = 1;
         curDirection = 1;
+        weapon = 0;
         try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRight4.png")) {
             img = new Image(inputStream);
 
@@ -41,6 +44,16 @@ public class Player extends GameObject {
     public int getLives(){
         return lives;
     }
+
+    public int getMaxLives(){
+        return maxLives;
+    }
+
+    public void setMaxLives(int maxLives){ this.maxLives = maxLives;}
+
+    public int getWeapon(){return  weapon;}
+
+    public void setWeapon(int weapon){this.weapon = weapon;}
 
     public void move(int direction,int speed){
 

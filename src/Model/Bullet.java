@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class Bullet extends GameObject {
     private boolean isEnemyBullet;
-    private final int speed = 1;
+    private final int speed = 2;
 
     public Bullet(){
         try (FileInputStream inputStream = new FileInputStream("MediaFiles/bullet.png")) {
@@ -21,12 +21,34 @@ public class Bullet extends GameObject {
     }
 
     public void move(int direction){
-
+        //left
+        if(direction == 0){
+            this.x -= speed;
+        }
+        //right
         if(direction == 1){
             this.x += speed;
         }
-        if(direction == 0){
+        //up left
+        if(direction == 2){
             this.x -= speed;
+            this.y += speed/2;
+        }
+
+        //up right
+        if(direction == 3){
+            this.x += speed;
+            this.y += speed/2;
+        }
+        //down left
+        if(direction == 4){
+            this.x -= speed;
+            this.y -= speed/2;
+        }
+        //down right
+        if(direction == 5){
+            this.x += speed;
+            this.y -= speed/2;
         }
     }
 

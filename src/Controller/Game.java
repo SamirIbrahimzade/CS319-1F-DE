@@ -202,6 +202,22 @@ public class Game extends Application {
                                 pauser = 0;
                             }
                         });
+                        weaponButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent mouseEvent) {
+                                gm.upgradeWeapon();
+                            }
+                        });
+                        lifeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent mouseEvent) {
+                                gm.upgradeMaxLife();
+                            }
+                        });
+                        goUP = false;
+                        goDown = false;
+                        goRight = false;
+                        goLeft = false;
                     }
                     checkCol();
                     //player move
@@ -349,6 +365,10 @@ public class Game extends Application {
                             pauser = 0;
                         }
                     });
+                    goUP = false;
+                    goDown = false;
+                    goRight = false;
+                    goLeft = false;
                 }
                 else{
 
@@ -366,7 +386,21 @@ public class Game extends Application {
                         gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
                         gm.getBulletList()[gm.getBulletIndex()].setActive(true);
                         gm.increaseBulletIndex();
-                        System.out.println(gm.getBulletIndex() + " is fired");
+
+                        if(gm.getP().getWeapon() == 1){
+                            gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 2);
+                            gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
+                            gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
+                            gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+                            gm.getBulletList()[gm.getBulletIndex()].setActive(true);
+                            gm.increaseBulletIndex();
+                            gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 4);
+                            gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
+                            gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
+                            gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+                            gm.getBulletList()[gm.getBulletIndex()].setActive(true);
+                            gm.increaseBulletIndex();
+                        }
                     }
                 }
             }
@@ -490,7 +524,7 @@ public class Game extends Application {
                 if (Math.abs(bonus.getX() - player.getX()) < (widthPlayer / 2 + widthBonus / 2)
                         && Math.abs(bonus.getY() - player.getY()) < (heightPlayer / 2 + heightBonus / 2)) {
                     bonus.setActive(false);
-                    if (player.getLives() < 3) {
+                    if (player.getLives() < player.getMaxLives()) {
                         player.setLives(player.getLives() + 1);
                     }
                 }

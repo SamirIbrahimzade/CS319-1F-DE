@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 
 public class GameManager {
     private static GameManager gm = null;
-
     private int enemyCount = 15;
     private int bulletCount = 80;
     private int bulletIndex = 0;
@@ -135,6 +134,14 @@ public class GameManager {
             return true;
         }
         return false;
+    }
+
+    void upgradeWeapon(){
+        p.setWeapon(1);
+    }
+    void upgradeMaxLife(){
+        p.setMaxLives(p.getMaxLives() + 1);
+        p.setLives(p.getLives()+1);
     }
 
     public void setgCamera(GCamera gCamera) {
