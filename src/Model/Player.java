@@ -15,9 +15,11 @@ public class Player extends GameObject {
     private int lives;
     private int weapon;
     static GameManager gm = GameManager.getInstance();
+    private boolean hasShield;
 
 
     public Player(){
+        hasShield = false;
         lives = 3;
         speed = 1;
         curDirection = 1;
@@ -55,7 +57,15 @@ public class Player extends GameObject {
 
     public void setWeapon(int weapon){this.weapon = weapon;}
 
-    public void move(int direction,int speed){
+    public boolean getHasShield() {
+        return hasShield;
+    }
+
+    public void setHasShield(boolean hasShield) {
+        this.hasShield = hasShield;
+    }
+
+    public void move(int direction, int speed){
 
         //if direction = 0 move UP
         //if direction = 1 move DOWN
@@ -73,27 +83,51 @@ public class Player extends GameObject {
         }
         if(direction == 2){
             if(this.curDirection == 1){
-                try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipLeft4.png")) {
-                    img = new Image(inputStream);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(!hasShield) {
+                    try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipLeft4.png")) {
+                        img = new Image(inputStream);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(hasShield) {
+                    try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipLeftShield.png")) {
+                        img = new Image(inputStream);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
                 this.x -= speed;
 
         }
         if(direction == 3){
-            if(this.curDirection == 0){
-                try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRight4.png")) {
-                    img = new Image(inputStream);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }            }
-
+            if(!hasShield) {
+                if (this.curDirection == 0) {
+                    try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRight4.png")) {
+                        img = new Image(inputStream);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            if(hasShield){
+                if (this.curDirection == 0) {
+                    try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRightShield.png")) {
+                        img = new Image(inputStream);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
             this.x += speed;
         }
 

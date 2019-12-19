@@ -12,18 +12,23 @@ import java.io.IOException;
 public class Enemy extends GameObject {
 
     static GameManager gm = GameManager.getInstance();
+    private boolean hasTitanium;
+    private boolean hasBonus;
 
     public Enemy(){
 
         speed = 1;
         curDirection = 1;
-        try (FileInputStream inputStream = new FileInputStream("MediaFiles/enemyImg3.png")) {
-            img = new Image(inputStream);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        int rand = (int) (Math.random() * 3);
+
+        if(rand == 0){
+            hasBonus = true;
         }
+        if(rand == 1){
+            hasTitanium = true;
+        }
+
     }
 
     public void move(int direction){

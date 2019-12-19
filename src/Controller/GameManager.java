@@ -55,8 +55,11 @@ public class GameManager {
 
     private void createEnemy(){
         enemyList = new Enemy[enemyCount];
-        for(int i =0; i < enemyCount; i++){
-            enemyList[i] = new Enemy();
+        for(int i =0; i < enemyCount/2; i++){
+            enemyList[i] = new EnemyType1();
+        }
+        for(int i =enemyCount/2-1; i < enemyCount; i++){
+            enemyList[i] = new EnemyType2();
         }
     }
     private void createBullet(){

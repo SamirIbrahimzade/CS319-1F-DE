@@ -11,7 +11,7 @@ public class Bullet extends GameObject {
     private final int speed = 2;
 
     public Bullet(){
-        try (FileInputStream inputStream = new FileInputStream("MediaFiles/bullet.png")) {
+        try (FileInputStream inputStream = new FileInputStream("MediaFiles/bulletEnemy.png")) {
             img = new Image(inputStream);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -54,6 +54,24 @@ public class Bullet extends GameObject {
 
     public void setEnemyBullet(boolean enemyBullet) {
         isEnemyBullet = enemyBullet;
+        if(isEnemyBullet) {
+            try (FileInputStream inputStream = new FileInputStream("MediaFiles/bulletEnemy.png")) {
+                img = new Image(inputStream);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            try (FileInputStream inputStream = new FileInputStream("MediaFiles/bullet.png")) {
+                img = new Image(inputStream);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public boolean isEnemyBullet() {

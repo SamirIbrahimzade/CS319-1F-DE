@@ -12,6 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -19,7 +20,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 import static javafx.scene.input.KeyCode.*;
@@ -214,10 +218,36 @@ public class Game extends Application {
                                 gm.upgradeMaxLife();
                             }
                         });
+
+                        shieldButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent mouseEvent) {
+                                gm.getP().setHasShield(true);
+                                if(gm.getP().getCurDirection() == 0){
+                                    try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipLeftShield.png")) {
+                                        gm.getP().setImg(new Image(inputStream)) ;
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                if(gm.getP().getCurDirection() == 1){
+                                    try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRightShield.png")) {
+                                        gm.getP().setImg(new Image(inputStream)) ;
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
                         goUP = false;
                         goDown = false;
                         goRight = false;
                         goLeft = false;
+
                     }
                     checkCol();
                     //player move
@@ -384,6 +414,7 @@ public class Game extends Application {
                         gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
                         gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
                         gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+                        gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
                         gm.getBulletList()[gm.getBulletIndex()].setActive(true);
                         gm.increaseBulletIndex();
 
@@ -468,8 +499,28 @@ public class Game extends Application {
                         && Math.abs( bullet.getY() - player.getY() ) < heightPlayer / 2 ) {
                     // 1) destroy the bullet
                     // 2) decrease the life of a player
+                    gm.getP().setHasShield(false);
+                    if(gm.getP().getCurDirection() == 0){
+                        try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipLeft4.png")) {
+                            gm.getP().setImg(new Image(inputStream)) ;
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if(gm.getP().getCurDirection() == 1){
+                        try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRight4.png")) {
+                            gm.getP().setImg(new Image(inputStream)) ;
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     bullet.setActive(false);
-                    player.decreaseLife();
+                    if(gm.getP().getHasShield() == false)player.decreaseLife();
                     break;
                 }
             }
@@ -510,8 +561,28 @@ public class Game extends Application {
                         && Math.abs(enemy.getY() - player.getY()) < (heightPlayer / 2 + heightEnemy / 2)) {
                     // 1) destroy the enemy
                     // 2) decrease the player's life
+                    if(gm.getP().getHasShield() == false)player.decreaseLife();
+                    gm.getP().setHasShield(false);
+                    if(gm.getP().getCurDirection() == 0){
+                        try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipLeft4.png")) {
+                            gm.getP().setImg(new Image(inputStream)) ;
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if(gm.getP().getCurDirection() == 1){
+                        try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRight4.png")) {
+                            gm.getP().setImg(new Image(inputStream)) ;
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     enemy.setActive(false);
-                    player.decreaseLife();
+
                     break;
                 }
             }
