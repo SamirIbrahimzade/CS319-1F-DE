@@ -17,6 +17,7 @@ public class GameManager {
     private int bonusIndex = 0;
     private int titaniumIndex = 0;
     private int bonusCount = 5;
+    private int titaniumCount = 5;
     private int playerSafeDistance;
     private GCamera gCamera;
     private int level;
@@ -25,6 +26,7 @@ public class GameManager {
     private Enemy[] enemyList;
     private Player p;
     private Bonus[] bonusList;
+    private Titanium[] titaniumList;
     private int killScore = 500;
 
     private int score = 0;
@@ -41,7 +43,8 @@ public class GameManager {
         createEnemy();
         createPlayer();
         createMap();
-
+        createTitanium();
+        
         playerSafeDistance = (int)(mapImage.getWidth()/10);
     }
 
@@ -73,6 +76,13 @@ public class GameManager {
         bonusList = new Bonus[bonusCount];
         for(int i =0; i < bonusCount; i++){
             bonusList[i] = new Bonus();
+        }
+    }
+    
+    private void createTitanium(){
+        titaniumList = new Titanium[titaniumCount];
+        for(int i =0; i < titaniumCount; i++){
+            titaniumList[i] = new Titanium();
         }
     }
 
@@ -118,6 +128,20 @@ public class GameManager {
             bulletIndex = 0;
         }
     }
+    
+    public void increaseBonusIndex(){
+        bonusIndex++;
+        if(bonusIndex >= bonusCount){
+            bonusIndex = 0;
+        }
+    }
+    
+    public void increaseTitaniumIndex(){
+        titaniumIndex++;
+        if(titaniumIndex >= titaniumCount){
+            titaniumIndex = 0;
+        }
+    }
 
     private int randomXPos(){
         int randX;
@@ -158,6 +182,14 @@ public class GameManager {
     public int getBulletIndex(){
         return bulletIndex;
     }
+    
+    public int getBonusIndex(){
+        return bonusIndex;
+    }
+    
+    public int getTitaniumIndex(){
+        return titaniumIndex;
+    }
 
     public String[] getHighScores() {
         return highScores;
@@ -187,6 +219,10 @@ public class GameManager {
         return bonusList;
     }
 
+    public Titanium[] getTitaniumList() {
+        return titaniumList;
+    }
+    
     public void increaseScore(){
         score += killScore;
     }

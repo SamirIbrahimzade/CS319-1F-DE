@@ -72,7 +72,7 @@ public class Game extends Application {
             public void handle(MouseEvent mouseEvent) {
                 pauser = 0;
                 gm = new GameManager();
-                gm.spawnBonus();
+                //gm.spawnBonus();
                 gm.spawnPlayer();
                 gm.spawnEnemy();
                 gc.translate((endPosition-250)-300,0);
@@ -108,8 +108,8 @@ public class Game extends Application {
         Label person1 = new Label("Samir Ibrahimzade");
         Label person2 = new Label("Abdullah Ayberk Gorgun");
         Label person3 = new Label("Taner Durmaz");
-        Label person4 = new Label("Hassan ");
-        Label person5 = new Label("Samir Ibrahimzade");
+        Label person4 = new Label("Hassan Raza");
+        Label person5 = new Label("Alymbek");
         person1.setTextFill(Color.WHITE);
         person1.setFont(Font.font(20));
         person2.setTextFill(Color.WHITE);
@@ -130,20 +130,18 @@ public class Game extends Application {
         gm.loadHighScore();
         String[] high = gm.getHighScores();
         Label scores1 = new Label("HIGH SCORES \n \n\n\n");
-        Label scores2 = new Label(high[0]+" "+high[1]+" "+high[2]+"\n"+high[3]+" "+high[4]+" "+high[5]+"\n"+high[6]+" "+high[7]+" "+high[8]);
-        Label scores3 = new Label(high[9]+" "+high[10]+" "+high[11]+"\n"+high[12]+" "+high[13]+" "+high[14]);
+        Label scores2 = new Label(high[0]+" "+high[1]+" "+high[2]+"\n"+high[3]+" "+high[4]+" "+high[5]+"\n"+high[6]+" "+high[7]+" "+high[8]+"\n"+high[9]+" "+high[10]+" "+high[11]+"\n"+high[12]+" "+high[13]+" "+high[14]);
+        
         scores1.setTextFill(Color.WHITE);
         scores1.setFont(Font.font(20));
         scores2.setTextFill(Color.WHITE);
         scores2.setFont(Font.font(20));
-        scores3.setTextFill(Color.WHITE);
-        scores3.setFont(Font.font(20));
         Button menuButton = new Button("Go To Main Menu");
         menuButton.setOnAction(e -> stage.setScene(mainScene));
         VBox highLayout = new VBox(10);
         //added
         highLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
-        highLayout.getChildren().addAll(scores1, scores2, scores3, menuButton);
+        highLayout.getChildren().addAll(scores1, scores2, menuButton);
         highScene = new Scene(highLayout, WIDTH, HEIGHT);
         highLayout.setAlignment(Pos.CENTER);
         Button menuButtonForCredits = new Button("Go To Main Menu");
@@ -189,9 +187,9 @@ public class Game extends Application {
                         level.setMaxWidth(200);
                         level.setTextFill(Color.WHITE);
                         level.setAlignment(Pos.CENTER);
-                        Button weaponButton = new Button("Upgrade weapon:  XX Titanium");
-                        Button lifeButton = new Button("Upgrade max life:  XX Titanium");
-                        Button shieldButton = new Button("Purchase Shield:  XX Titanium");
+                        Button weaponButton = new Button("Upgrade weapon:  500 Titanium");
+                        Button lifeButton = new Button("Upgrade max life:  500 Titanium");
+                        Button shieldButton = new Button("Purchase Shield:  500 Titanium");
                         Button resumeButton = new Button("Continue");
                         weaponButton.setMaxWidth(200);
                         lifeButton.setMaxWidth(200);
@@ -491,19 +489,17 @@ public class Game extends Application {
     	gm.loadHighScore();
         String[] high = gm.getHighScores();
         Label scores1 = new Label("HIGH SCORES \n\n\n \n"  );
-        Label scores2 = new Label(high[0]+" "+high[1]+" "+high[2]+"\n"+high[3]+" "+high[4]+" "+high[5]+"\n"+high[6]+" "+high[7]+" "+high[8]);
-        Label scores3 = new Label(high[9]+" "+high[10]+" "+high[11]+"\n"+high[12]+" "+high[13]+" "+high[14]);
+        Label scores2 = new Label(high[0]+" "+high[1]+" "+high[2]+"\n"+high[3]+" "+high[4]+" "+high[5]+"\n"+high[6]+" "+high[7]+" "+high[8]+"\n"+high[9]+" "+high[10]+" "+high[11]+"\n"+high[12]+" "+high[13]+" "+high[14]);
+        
         scores1.setTextFill(Color.WHITE);
         scores1.setFont(Font.font(20));
         scores2.setTextFill(Color.WHITE);
         scores2.setFont(Font.font(20));
-        scores3.setTextFill(Color.WHITE);
-        scores3.setFont(Font.font(20));
         Button menuButton = new Button("Go To Main Menu");
         menuButton.setOnAction(e -> stage.setScene(mainScene));
         VBox highLayout = new VBox(10);
         highLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
-        highLayout.getChildren().addAll(scores1, scores2, scores3, menuButton);
+        highLayout.getChildren().addAll(scores1, scores2, menuButton);
         highScene = new Scene(highLayout, 1024, 576);
 
         Button menuButtonForCredits = new Button("Go To Main Menu");
@@ -574,6 +570,18 @@ public class Game extends Application {
                             destroyedEnemy++;
                             gm.increaseScore();
                             enemy.setActive(false);
+                            if(enemy.hTitanium()) {
+                            	gm.getTitaniumList()[gm.getTitaniumIndex()].setX(enemy.getX());
+                            	gm.getTitaniumList()[gm.getTitaniumIndex()].setY(enemy.getY());
+                            	gm.getTitaniumList()[gm.getTitaniumIndex()].setActive(true);
+                            	gm.increaseTitaniumIndex();
+                            }
+                            if(enemy.hBonus()) {
+                            	gm.getBonusList()[gm.getBonusIndex()].setX(enemy.getX());
+                            	gm.getBonusList()[gm.getBonusIndex()].setY(enemy.getY());
+                            	gm.getBonusList()[gm.getBonusIndex()].setActive(true);
+                            	gm.increaseBonusIndex();
+                            }
                             bullet.setActive(false);
                             break;
                         }
