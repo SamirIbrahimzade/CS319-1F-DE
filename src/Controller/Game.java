@@ -80,6 +80,11 @@ public class Game extends Application {
                 newGame = 1;
                 stage.setScene(scene);
                 pauser = 0;
+                goUP = false;
+                goDown = false;
+                goRight = false;
+                goLeft = false;
+                shoot = false;
             }
         });
 
