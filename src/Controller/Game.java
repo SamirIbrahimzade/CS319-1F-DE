@@ -37,7 +37,7 @@ public class Game extends Application {
     float endPosition = 250;
     private GCamera cam;
     static GameManager gm;
-    private boolean goUP = false, goDown = false, goRight = false, goLeft = false;
+    private boolean goUP = false, goDown = false, goRight = false, goLeft = false, shoot = false;
     Scene mainScene, creditsScene, scene, endScene,highScene,pauseScene,levelScene;
     Pane root;
 
@@ -247,6 +247,7 @@ public class Game extends Application {
                         goDown = false;
                         goRight = false;
                         goLeft = false;
+                        shoot = false;
 
                     }
                     checkCol();
@@ -273,18 +274,66 @@ public class Game extends Application {
                         gm.getP().move(2,2);
                         gm.getP().setCurDirection(0);
                     }
+                    if(shoot){
+                        gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection);
+                        gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
+                        gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
+                        gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+                        gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+                        gm.getBulletList()[gm.getBulletIndex()].setActive(true);
+                        gm.increaseBulletIndex();
+
+                        if(gm.getP().getWeapon() == 1){
+                            gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 2);
+                            gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
+                            gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
+                            gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+                            gm.getBulletList()[gm.getBulletIndex()].setActive(true);
+                            gm.increaseBulletIndex();
+                            gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 4);
+                            gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
+                            gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
+                            gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+                            gm.getBulletList()[gm.getBulletIndex()].setActive(true);
+                            gm.increaseBulletIndex();
+                        }
+                    }
 
                     double t = (currentNanoTime - startNanoTime) / 1000000000.0;
 
                     //enemy move and shoot
-                    for (Enemy e : gm.getEnemyList()) {
+                    for (int i = 0; i < gm.getEnemyList().length; i++) {
+                        Enemy e = gm.getEnemyList()[i];
                         if (e.isActive()) {
                             int max = 4;
                             int min = 0;
                             int range = max - min + 1;
                             int rand = (int) (Math.random() * range) + min;
-                            for (int i = 0; i < 70000; i++) {
-                                e.move(rand);
+                            if(i < gm.getEnemyList().length/2){
+                                for (int j = 0; j < 70000; j++) {
+                                    e.move(rand);
+                                }
+                            }
+                            else{
+                                int dir;
+                                if(e.getX()>gm.getP().getX()){
+                                    dir = 2;
+                                }
+                                else{
+                                    dir = 3;
+                                }
+                                for (int j = 0; j < 3500; j++) {
+                                    e.move(dir);
+                                }
+                                if(e.getY()>gm.getP().getY()){
+                                    dir = 1;
+                                }
+                                else{
+                                    dir = 0;
+                                }
+                                for (int j = 0; j < 3500; j++) {
+                                    e.move(dir);
+                                }
                             }
                             max = 1000;
                             range = max - min + 1;
@@ -407,32 +456,9 @@ public class Game extends Application {
                         case DOWN:  goDown = true; break;
                         case LEFT:  goLeft  = true; break;
                         case RIGHT: goRight  = true; break;
+                        case SPACE: shoot = true; break;
                     }
 
-                    if(event.getCode() == SPACE){
-                        gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection);
-                        gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
-                        gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
-                        gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
-                        gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
-                        gm.getBulletList()[gm.getBulletIndex()].setActive(true);
-                        gm.increaseBulletIndex();
-
-                        if(gm.getP().getWeapon() == 1){
-                            gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 2);
-                            gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
-                            gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
-                            gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
-                            gm.getBulletList()[gm.getBulletIndex()].setActive(true);
-                            gm.increaseBulletIndex();
-                            gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 4);
-                            gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
-                            gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
-                            gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
-                            gm.getBulletList()[gm.getBulletIndex()].setActive(true);
-                            gm.increaseBulletIndex();
-                        }
-                    }
                 }
             }
         });
@@ -445,6 +471,7 @@ public class Game extends Application {
                     case DOWN:  goDown = false; break;
                     case LEFT:  goLeft = false; break;
                     case RIGHT: goRight  = false; break;
+                    case SPACE: shoot = false; break;
                 }
             }
         });

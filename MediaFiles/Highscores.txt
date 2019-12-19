@@ -8,8 +8,8 @@ Qarone
 Tom
 3500
 4
-asd
-3500
-5
 d
 3000
+5
+Frank
+2500

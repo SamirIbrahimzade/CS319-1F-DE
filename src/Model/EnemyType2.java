@@ -21,10 +21,17 @@ public class EnemyType2 extends Enemy {
     }
 
     public void move(int direction){
-        if(getX()>gm.getP().getX())setX(getX()-(float)0.00003);
-        else setX(getX()+(float)0.00003);
-
-        if(getY()>gm.getP().getY())setY(getY()-(float)0.00003);
-        else setY(getY()+(float)0.00003);
+        if(direction == 0){
+            this.y += 0.0001;
+        }
+        if(direction == 1){
+            this.y -= 0.0001;
+        }
+        if(direction == 2){
+            this.x -= 0.0001;
+        }
+        if(direction == 3){
+            this.x += 0.0001;
+        }
     }
 }
