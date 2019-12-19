@@ -30,7 +30,12 @@ public class Enemy extends GameObject {
         }
 
     }
-
+    public boolean hTitanium() {
+    	return hasTitanium;
+    }
+    public boolean hBonus() {
+    	return hasBonus;
+    }
     public void move(int direction){
         //if direction = 0 move UP
         //if direction = 1 move DOWN
