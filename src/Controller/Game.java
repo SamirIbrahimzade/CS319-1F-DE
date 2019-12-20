@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 
 import static javafx.scene.input.KeyCode.*;
@@ -41,6 +42,7 @@ public class Game extends Application {
     Scene mainScene, creditsScene, scene, endScene,highScene,pauseScene,levelScene;
     Pane root;
     private int superAttack = 0;
+    private long lastShootTime = System.currentTimeMillis();;
 
     @Override
     public void start(Stage stage) throws Exception{
@@ -288,7 +290,7 @@ public class Game extends Application {
                         gm.getP().move(2,2);
                         gm.getP().setCurDirection(0);
                     }
-                    if(shoot){
+                    if(shoot && (gm.getP().getShootCooldown() < ((System.currentTimeMillis() - lastShootTime)/100) )){
                         if(superAttack == 1) {
                             gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 2);
                             gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
@@ -318,6 +320,7 @@ public class Game extends Application {
                             superAttack = 0;
                         }
                         else{
+
                             gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection);
                             gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
                             gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
@@ -325,7 +328,7 @@ public class Game extends Application {
                             gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
                             gm.getBulletList()[gm.getBulletIndex()].setActive(true);
                             gm.increaseBulletIndex();
-
+                            lastShootTime = System.currentTimeMillis();
                             if(gm.getP().getWeapon() == 1){
                                 gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 2);
                                 gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
@@ -416,10 +419,23 @@ public class Game extends Application {
                     }
 
                     gc.drawImage(gm.getMapImage(), 0, 0);
+                    gc.drawImage(gm.getMapImage(), gm.getMapImage().getWidth(), 0);
+                    gc.drawImage(gm.getMapImage(), -1*gm.getMapImage().getWidth(), 0);
+                    gc.drawImage(gm.getMapImage(), -2*gm.getMapImage().getWidth(), 0);
+                    if( gm.getMapImage().getWidth()  <  gm.getP().getX()){
+                        System.out.println(gm.getMapImage().getWidth()+"borderr right" + gm.getP().getX());
+                        gm.getP().setX(0);
+                        gc.translate(1026,0);
+                    }
+                    else if(gm.getMapImage().getWidth() <  Math.abs(gm.getP().getX())){
+                        System.out.println("borderr left" + gm.getP().getX());
+                        gm.getP().setX(0);
+                        gc.translate(-1026,0);
+                    }
+
                     if (gm.getP().isActive()) {
                         gc.drawImage(gm.getP().getImg(), gm.getP().getX(), gm.getP().getY());
                     }
-
                     for (Enemy e : gm.getEnemyList()) {
                         if (e.isActive()) {
                             gc.drawImage(e.getImg(), e.getX(), e.getY());

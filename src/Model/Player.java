@@ -14,6 +14,7 @@ public class Player extends GameObject {
     private int maxLives;
     private int lives;
     private int weapon;
+    private int shootCooldown = 5;
     static GameManager gm = GameManager.getInstance();
     private boolean hasShield;
     private int titaniumCount;
@@ -29,7 +30,9 @@ public class Player extends GameObject {
     public int getTitaniumCount() {
         return titaniumCount;
     }
-
+    public int getShootCooldown() {
+        return shootCooldown;
+    }
     public Player(){
         hasShield = false;
         lives = 3;
