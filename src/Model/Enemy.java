@@ -15,6 +15,7 @@ public class Enemy extends GameObject {
     private boolean hasTitanium;
     private boolean hasBonus;
 
+
     public Enemy(){
 
         speed = 1;

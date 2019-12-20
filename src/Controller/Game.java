@@ -40,6 +40,7 @@ public class Game extends Application {
     private boolean goUP = false, goDown = false, goRight = false, goLeft = false, shoot = false;
     Scene mainScene, creditsScene, scene, endScene,highScene,pauseScene,levelScene;
     Pane root;
+    private int superAttack = 0;
 
     @Override
     public void start(Stage stage) throws Exception{
@@ -212,37 +213,46 @@ public class Game extends Application {
                         weaponButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent mouseEvent) {
-                                gm.upgradeWeapon();
+                                if(gm.getP().getTitaniumCount() >=500) {
+                                    gm.upgradeWeapon();
+                                    gm.getP().decreaseTitanium();
+                                }
                             }
                         });
                         lifeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent mouseEvent) {
-                                gm.upgradeMaxLife();
+                                if(gm.getP().getTitaniumCount() >=500) {
+                                    gm.upgradeMaxLife();
+                                    gm.getP().decreaseTitanium();
+                                }
                             }
                         });
 
                         shieldButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent mouseEvent) {
-                                gm.getP().setHasShield(true);
-                                if(gm.getP().getCurDirection() == 0){
-                                    try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipLeftShield.png")) {
-                                        gm.getP().setImg(new Image(inputStream)) ;
-                                    } catch (FileNotFoundException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                if(gm.getP().getTitaniumCount() >=500) {
+                                    gm.getP().setHasShield(true);
+                                    if (gm.getP().getCurDirection() == 0) {
+                                        try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipLeftShield.png")) {
+                                            gm.getP().setImg(new Image(inputStream));
+                                        } catch (FileNotFoundException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }
-                                if(gm.getP().getCurDirection() == 1){
-                                    try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRightShield.png")) {
-                                        gm.getP().setImg(new Image(inputStream)) ;
-                                    } catch (FileNotFoundException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                    if (gm.getP().getCurDirection() == 1) {
+                                        try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRightShield.png")) {
+                                            gm.getP().setImg(new Image(inputStream));
+                                        } catch (FileNotFoundException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
+                                    gm.getP().decreaseTitanium();
                                 }
                             }
                         });
@@ -255,38 +265,31 @@ public class Game extends Application {
                     }
                     checkCol();
                     //player move
-                    if(goUP){
-                        System.out.println("up");
+                    if(goUP && gm.getP().getY() > 0){
+                       // System.out.println("up");
                         gm.getP().move(0,2);
+
                     }
-                    if(goDown){
-                        System.out.println("down");
+                    if(goDown && gm.getP().getY() < gm.getMapImage().getHeight() - 110){
+                       // System.out.println("down");
                         gm.getP().move(1,2);
                     }
                     if(goRight){
                         // if(gm.getP().getCurDirection() == 0)
                         gc.translate(-2,0);
-                        System.out.println("right");
+                        //System.out.println("right");
                         gm.getP().move(3,2);
                         gm.getP().setCurDirection(1);
                     }
                     if(goLeft){
                         // if(gm.getP().getCurDirection() == 1)
                         gc.translate(2,0);
-                        System.out.println("left");
+                       // System.out.println("left");
                         gm.getP().move(2,2);
                         gm.getP().setCurDirection(0);
                     }
                     if(shoot){
-                        gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection);
-                        gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
-                        gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
-                        gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
-                        gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
-                        gm.getBulletList()[gm.getBulletIndex()].setActive(true);
-                        gm.increaseBulletIndex();
-
-                        if(gm.getP().getWeapon() == 1){
+                        if(superAttack == 1) {
                             gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 2);
                             gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
                             gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
@@ -299,6 +302,44 @@ public class Game extends Application {
                             gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
                             gm.getBulletList()[gm.getBulletIndex()].setActive(true);
                             gm.increaseBulletIndex();
+                            gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 1);
+                            gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
+                            gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
+                            gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+                            gm.getBulletList()[gm.getBulletIndex()].setActive(true);
+                            gm.increaseBulletIndex();
+                            gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 3);
+                            gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
+                            gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
+                            gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+                            gm.getBulletList()[gm.getBulletIndex()].setActive(true);
+                            gm.increaseBulletIndex();
+
+                            superAttack = 0;
+                        }
+                        else{
+                            gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection);
+                            gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
+                            gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
+                            gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+                            gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+                            gm.getBulletList()[gm.getBulletIndex()].setActive(true);
+                            gm.increaseBulletIndex();
+
+                            if(gm.getP().getWeapon() == 1){
+                                gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 2);
+                                gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
+                                gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
+                                gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+                                gm.getBulletList()[gm.getBulletIndex()].setActive(true);
+                                gm.increaseBulletIndex();
+                                gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 4);
+                                gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
+                                gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
+                                gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+                                gm.getBulletList()[gm.getBulletIndex()].setActive(true);
+                                gm.increaseBulletIndex();
+                            }
                         }
                     }
 
@@ -314,7 +355,12 @@ public class Game extends Application {
                             int rand = (int) (Math.random() * range) + min;
                             if(i < gm.getEnemyList().length/2){
                                 for (int j = 0; j < 70000; j++) {
-                                    e.move(rand);
+                                    if(rand == 0 ) {
+                                        if (e.getY() > 0 && e.getY() < gm.getMapImage().getHeight() - 110)
+                                            e.move(rand);
+                                    }
+                                    else e.move(rand);
+
                                 }
                             }
                             else{
@@ -362,6 +408,7 @@ public class Game extends Application {
 
                     if (gm.getP().getCurDirection() == 1) {
                         gc.translate(-1, 0);
+
                         gm.getP().move(3, 1);
                     } else {
                         gc.translate(1, 0);
@@ -389,6 +436,11 @@ public class Game extends Application {
                     for (Bonus b : gm.getBonusList()) {
                         if (b.isActive()) {
                             gc.drawImage(b.getImg(), b.getX(), b.getY());
+                        }
+                    }
+                    for (Titanium titan : gm.getTitaniumList()) {
+                        if (titan.isActive()) {
+                            gc.drawImage(titan.getImg(), titan.getX(), titan.getY());
                         }
                     }
                     if (gm.checkLives()) {
@@ -566,16 +618,19 @@ public class Game extends Application {
                                 && Math.abs(enemy.getY() - bullet.getY()) < (heightBullet / 2 + heightEnemy / 2)) {
                             // 1) destroy the player bullet
                             // 2) destroy the enemy
-                            if(destroyedEnemy %3 == 0 && destroyedEnemy != 0)onlyOnce = 0;
+                            if (destroyedEnemy % 3 == 0 && destroyedEnemy != 0) onlyOnce = 0;
                             destroyedEnemy++;
                             gm.increaseScore();
                             enemy.setActive(false);
+
+
                             if(enemy.hTitanium()) {
-                            	gm.getTitaniumList()[gm.getTitaniumIndex()].setX(enemy.getX());
-                            	gm.getTitaniumList()[gm.getTitaniumIndex()].setY(enemy.getY());
-                            	gm.getTitaniumList()[gm.getTitaniumIndex()].setActive(true);
-                            	gm.increaseTitaniumIndex();
+                                gm.getTitaniumList()[gm.getTitaniumIndex()].setX(enemy.getX());
+                                gm.getTitaniumList()[gm.getTitaniumIndex()].setY(enemy.getY());
+                                gm.getTitaniumList()[gm.getTitaniumIndex()].setActive(true);
+                                gm.increaseTitaniumIndex();
                             }
+
                             if(enemy.hBonus()) {
                             	gm.getBonusList()[gm.getBonusIndex()].setX(enemy.getX());
                             	gm.getBonusList()[gm.getBonusIndex()].setY(enemy.getY());
@@ -635,12 +690,30 @@ public class Game extends Application {
                 if (Math.abs(bonus.getX() - player.getX()) < (widthPlayer / 2 + widthBonus / 2)
                         && Math.abs(bonus.getY() - player.getY()) < (heightPlayer / 2 + heightBonus / 2)) {
                     bonus.setActive(false);
-                    if (player.getLives() < player.getMaxLives()) {
-                        player.setLives(player.getLives() + 1);
+                    if (bonus.getType() == 1) {
+                        if (player.getLives() < player.getMaxLives()) {
+                            player.setLives(player.getLives() + 1);
+                        }
+                    }
+                    else{
+                        superAttack = 1;
                     }
                 }
             }
         }
+
+        for (Titanium titanium : gm.getTitaniumList()) {
+            if (titanium.isActive()) {
+                int widthBonus = (int) titanium.getImg().getWidth();
+                int heightBonus = (int) titanium.getImg().getHeight();
+                if (Math.abs(titanium.getX() - player.getX()) < (widthPlayer / 2 + widthBonus / 2)
+                        && Math.abs(titanium.getY() - player.getY()) < (heightPlayer / 2 + heightBonus / 2)) {
+                    titanium.setActive(false);
+                    gm.getP().increaseTitanium();
+                }
+            }
+        }
+
     }
     public static void main(String[] args) {
         launch(args);

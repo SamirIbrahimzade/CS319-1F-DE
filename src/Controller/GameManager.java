@@ -29,6 +29,7 @@ public class GameManager {
     private Titanium[] titaniumList;
     private int killScore = 500;
 
+
     private int score = 0;
     //We take position, name and score for each of highscores and store 5 highscores
     static String[] highScores = new String[15];
@@ -39,12 +40,12 @@ public class GameManager {
 
     public GameManager(){
         createBonus();
+        createTitanium();
         createBullet();
         createEnemy();
         createPlayer();
         createMap();
-        createTitanium();
-        
+
         playerSafeDistance = (int)(mapImage.getWidth()/10);
     }
 
@@ -119,6 +120,14 @@ public class GameManager {
             bonusList[i].setX(randomXPos());
             bonusList[i].setY(randomYPos());
             bonusList[i].setActive(true);
+        }
+    }
+
+    public void spawnTitanium(){
+        for(int i = 0; i < titaniumCount; i++){
+            titaniumList[i].setX(randomXPos());
+            titaniumList[i].setY(randomYPos());
+            titaniumList[i].setActive(true);
         }
     }
 

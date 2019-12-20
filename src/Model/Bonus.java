@@ -14,6 +14,10 @@ public class Bonus extends GameObject {
     // 0 for super attack
     // 1 for life bonus
 
+    public int getType() {
+        return type;
+    }
+
     public Bonus(){
 
         speed = 10;

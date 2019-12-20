@@ -16,7 +16,19 @@ public class Player extends GameObject {
     private int weapon;
     static GameManager gm = GameManager.getInstance();
     private boolean hasShield;
+    private int titaniumCount;
 
+    public void increaseTitanium() {
+        this.titaniumCount = this.titaniumCount + 200;
+    }
+
+    public void decreaseTitanium() {
+        this.titaniumCount = this.titaniumCount - 500;
+    }
+
+    public int getTitaniumCount() {
+        return titaniumCount;
+    }
 
     public Player(){
         hasShield = false;
