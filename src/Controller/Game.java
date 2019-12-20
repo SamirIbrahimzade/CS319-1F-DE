@@ -42,7 +42,7 @@ public class Game extends Application {
     Scene mainScene, creditsScene, scene, endScene,highScene,pauseScene,levelScene;
     Pane root;
     private int superAttack = 0;
-    private long lastShootTime = System.currentTimeMillis();;
+    private long lastShootTime = System.currentTimeMillis();
 
     @Override
     public void start(Stage stage) throws Exception{
@@ -290,7 +290,8 @@ public class Game extends Application {
                         gm.getP().move(2,2);
                         gm.getP().setCurDirection(0);
                     }
-                    if(shoot && (gm.getP().getShootCooldown() < ((System.currentTimeMillis() - lastShootTime)/100) )){
+
+                    if(shoot && gm.getP().getShootCooldown() < ((System.currentTimeMillis() - lastShootTime)/100) ){
                         if(superAttack == 1) {
                             gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 2);
                             gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
@@ -356,7 +357,7 @@ public class Game extends Application {
                             int min = 0;
                             int range = max - min + 1;
                             int rand = (int) (Math.random() * range) + min;
-                            if(i < gm.getEnemyList().length/2){
+                            if(i < gm.getEnemyList().length/2 -1){
                                 for (int j = 0; j < 70000; j++) {
                                     if(rand == 0 ) {
                                         if (e.getY() > 0 && e.getY() < gm.getMapImage().getHeight() - 110)
@@ -439,13 +440,37 @@ public class Game extends Application {
                     for (Enemy e : gm.getEnemyList()) {
                         if (e.isActive()) {
                             gc.drawImage(e.getImg(), e.getX(), e.getY());
-
+                            gc.drawImage(e.getImg(), e.getX() - 1026, e.getY());
+                            gc.drawImage(e.getImg(), e.getX() + 1026, e.getY());
                         }
                     }
 
                     for (Bullet b : gm.getBulletList()) {
                         if (b.isActive()) {
+                            int futureBulletPosOffset = 0;
+                            //if bullet moves right
+                            if(b.getCurDirection()%2 == 0){
+                                futureBulletPosOffset = 2;
+                            }
+                            else{
+                                futureBulletPosOffset = -2;
+                            }
+                            /*
+                            if((Math.abs(gm.getP().getX() - b.getX()) < Math.abs(gm.getP().getX() - (b.getX()+futureBulletPosOffset))) && (gm.getP().getX() - b.getX() < 500)){
+                                b.setActive(false);
+                                System.out.println(Math.abs(gm.getP().getX() - b.getX()));
+                                System.out.println(Math.abs(Math.abs(gm.getP().getX() - (b.getX()+futureBulletPosOffset))));
+                            }*/
                             gc.drawImage(b.getImg(), b.getX(), b.getY());
+                            gc.drawImage(b.getImg(), b.getX() - 1026, b.getY());
+                            gc.drawImage(b.getImg(), b.getX() + 1026, b.getY());
+
+                            if( gm.getMapImage().getWidth()  <  b.getX()){
+                                b.setX(0);
+                            }
+                            else if(gm.getMapImage().getWidth() <  b.getX()){
+                                b.setX(0);
+                            }
                         }
                     }
 

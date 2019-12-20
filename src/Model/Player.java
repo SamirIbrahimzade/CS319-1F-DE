@@ -35,7 +35,7 @@ public class Player extends GameObject {
     }
     public Player(){
         hasShield = false;
-        lives = 3;
+        lives = 3000;
         speed = 1;
         curDirection = 1;
         weapon = 0;
