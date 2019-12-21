@@ -18,6 +18,7 @@ public class EnemyType2 extends Enemy {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        type = 2;
     }
 
     public void move(int direction){

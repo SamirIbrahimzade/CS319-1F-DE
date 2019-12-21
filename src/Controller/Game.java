@@ -434,6 +434,39 @@ public class Game extends Application {
                     gc.strokeText("Pause(P)", gm.getP().getX()+310, 20);
                     gc.strokeText("Score: "+gm.getScore() , gm.getP().getX()+310, 40);
                     gc.strokeText("Lives: " , gm.getP().getX()-200, 20);
+
+                    ///////minimap part for map
+                    Image minimapimg;
+                    try (FileInputStream inputStream = new FileInputStream("MediaFiles/mapImgMM2.png")) {
+                        minimapimg = new Image(inputStream);
+                        gc.drawImage(minimapimg,gm.getP().getX() - 80,0);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    ////////////////////////////
+
+                    ///////image for spaceship
+                    Image spaceshipLeftMM,spaceshipRightMM;
+                    try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipLeftMM.png")) {
+                        spaceshipLeftMM = new Image(inputStream);
+                        if(gm.getP().getCurDirection() == 0)
+                            gc.drawImage(spaceshipLeftMM,(gm.getP().getX()-80)+(gm.getP().getX()/2.69),gm.getP().getY()/6.7);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRightMM.png")) {
+                        spaceshipRightMM = new Image(inputStream);
+                        if(gm.getP().getCurDirection() == 1)
+                            gc.drawImage(spaceshipRightMM,(gm.getP().getX()-80)+(gm.getP().getX()/2.69),gm.getP().getY()/6.7);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    ///////////////////
+
                     int forpic = 160;
                     for(int i=0;i<gm.getP().getLives();i++) {
                     	gc.drawImage(gm.getP().getImg(), gm.getP().getX()-forpic, 40,20,20);
@@ -451,10 +484,32 @@ public class Game extends Application {
                     }
 
                     if (gm.getP().isActive()) {
+
                         gc.drawImage(gm.getP().getImg(), gm.getP().getX(), gm.getP().getY());
                     }
                     for (Enemy e : gm.getEnemyList()) {
                         if (e.isActive()) {
+                            ///for minimap
+                            try (FileInputStream inputStream = new FileInputStream("MediaFiles/enemyImg3MM.png")) {
+                                Image enemyImg;
+                                enemyImg = new Image(inputStream);
+                                if(e.getType() == 1)
+                                gc.drawImage(enemyImg,(gm.getP().getX()-80)+(e.getX()/2.69),e.getY()/6.7);
+
+                            } catch (IOException err) {
+                                err.printStackTrace();
+                            }
+
+                            try (FileInputStream inputStream = new FileInputStream("MediaFiles/enemyT2MM.png")) {
+                                Image enemyImg;
+                                enemyImg = new Image(inputStream);
+                                if(e.getType() == 2)
+                                    gc.drawImage(enemyImg,(gm.getP().getX()-80)+(e.getX()/2.69),e.getY()/6.7);
+
+                            } catch (IOException err) {
+                                err.printStackTrace();
+                            }
+                            ///
                             gc.drawImage(e.getImg(), e.getX(), e.getY());
                             gc.drawImage(e.getImg(), e.getX() - 1026, e.getY());
                             gc.drawImage(e.getImg(), e.getX() + 1026, e.getY());

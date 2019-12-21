@@ -14,7 +14,11 @@ public class Enemy extends GameObject {
     static GameManager gm = GameManager.getInstance();
     private boolean hasTitanium;
     private boolean hasBonus;
+    public int type;
 
+    public int getType() {
+        return type;
+    }
 
     public Enemy(){
 

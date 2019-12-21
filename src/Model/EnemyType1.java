@@ -17,6 +17,7 @@ public class EnemyType1 extends Enemy {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        type = 1;
     }
 
 
