@@ -23,16 +23,16 @@ public class EnemyType2 extends Enemy {
 
     public void move(int direction){
         if(direction == 0){
-            this.y += 0.0001;
+            this.y += speed/10000;
         }
         if(direction == 1){
-            this.y -= 0.0001;
+            this.y -= speed/10000;
         }
         if(direction == 2){
-            this.x -= 0.0001;
+            this.x -= speed/10000;
         }
         if(direction == 3){
-            this.x += 0.0001;
+            this.x += speed/10000;
         }
     }
 }

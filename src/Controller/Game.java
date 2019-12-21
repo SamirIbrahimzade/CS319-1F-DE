@@ -182,6 +182,8 @@ public class Game extends Application {
                     if (destroyedEnemy % 3 == 0 && destroyedEnemy != 0 && onlyOnce == 0) {
                         System.out.println("destroyed enemy " + destroyedEnemy);
                         System.out.println("Level " + destroyedEnemy / 3 + " passed!");
+                        gm.increaseEnemySpeeds();
+                        gm.increaseLevel();
                         gm.setKillScore(((destroyedEnemy % 3) + 1) * 500);
                         onlyOnce = 1;
                         pauser = 1;
@@ -353,6 +355,13 @@ public class Game extends Application {
                     for (int i = 0; i < gm.getEnemyList().length; i++) {
                         Enemy e = gm.getEnemyList()[i];
                         if (e.isActive()) {
+                            if(e.getX()>
+                                    (gm.getMapImage().getWidth())){
+                                e.setX(((int)gm.getMapImage().getWidth() -100));
+                            }
+                            else if (e.getX()<(-gm.getMapImage().getWidth())){
+                                e.setX(((int)gm.getMapImage().getWidth()*-1 + 100));
+                            }
                             int max = 4;
                             int min = 0;
                             int range = max - min + 1;
@@ -477,9 +486,9 @@ public class Game extends Application {
                         gm.getP().setX(0);
                         gc.translate(1026,0);
                     }
-                    else if(gm.getMapImage().getWidth() <  Math.abs(gm.getP().getX())){
+                    else if(0 >  gm.getP().getX()){
                         System.out.println("borderr left" + gm.getP().getX());
-                        gm.getP().setX(0);
+                        gm.getP().setX(1024);
                         gc.translate(-1026,0);
                     }
 
@@ -511,7 +520,9 @@ public class Game extends Application {
                             }
                             ///
                             gc.drawImage(e.getImg(), e.getX(), e.getY());
+                            //if(gm.getP().getX() > 0)
                             gc.drawImage(e.getImg(), e.getX() - 1026, e.getY());
+                           //else
                             gc.drawImage(e.getImg(), e.getX() + 1026, e.getY());
                         }
                     }
@@ -528,11 +539,16 @@ public class Game extends Application {
                                 futureBulletPosOffset = -2;
                             }
                             /*
-                            if((Math.abs(gm.getP().getX() - b.getX()) < Math.abs(gm.getP().getX() - (b.getX()+futureBulletPosOffset))) && (gm.getP().getX() - b.getX() < 500)){
-                                b.setActive(false);
-                                System.out.println(Math.abs(gm.getP().getX() - b.getX()));
-                                System.out.println(Math.abs(Math.abs(gm.getP().getX() - (b.getX()+futureBulletPosOffset))));
+                            if((Math.abs(gm.getP().getX() - b.getX()) > 100) && (gm.getP().getX() - b.getX() < 550)) {
+                                if ((Math.abs(gm.getP().getX() - b.getX()) < Math.abs(gm.getP().getX() - (b.getX() + futureBulletPosOffset))) ) {
+                                    b.setActive(false);
+                                    System.out.println(Math.abs(gm.getP().getX() - b.getX()));
+                                    System.out.println(Math.abs(Math.abs(gm.getP().getX() - (b.getX() + futureBulletPosOffset))));
+                                }
                             }*/
+                            if(b.getBulletRange() < 0){
+                                b.setActive(false);
+                            }
                             gc.drawImage(b.getImg(), b.getX(), b.getY());
                             gc.drawImage(b.getImg(), b.getX() - 1026, b.getY());
                             gc.drawImage(b.getImg(), b.getX() + 1026, b.getY());

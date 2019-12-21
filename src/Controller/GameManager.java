@@ -286,9 +286,15 @@ public class GameManager {
         this.killScore = killScore;
     }
 
-    private void increaseLevel(){
+    public void increaseLevel(){
         level++;
     }
 
     private void updateMinimap(){}
+
+    public void increaseEnemySpeeds(){
+        for (Enemy e : enemyList){
+            e.speed += 1;
+        }
+    }
 }
