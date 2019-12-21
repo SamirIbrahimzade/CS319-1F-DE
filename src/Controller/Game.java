@@ -35,6 +35,7 @@ public class Game extends Application {
     private static final int HEIGHT = 800;
     int pauser = 1, newGame = 0, destroyedEnemy = 0;
     int onlyOnce = 0;
+    int adjust = 0;
     float endPosition = 250;
     private GCamera cam;
     static GameManager gm;
@@ -188,13 +189,18 @@ public class Game extends Application {
                         onlyOnce = 1;
                         pauser = 1;
                         Label level = new Label("Level " + destroyedEnemy / 3 + " passed! \n\n");
+                        Label titan = new Label("Titanium: " + gm.getP().getTitaniumCount()+"\n");
                         level.setStyle("-fx-background-color: grey;");
                         level.setMaxWidth(200);
                         level.setTextFill(Color.WHITE);
                         level.setAlignment(Pos.CENTER);
-                        Button weaponButton = new Button("Upgrade weapon:  500 Titanium");
-                        Button lifeButton = new Button("Upgrade max life:  500 Titanium");
-                        Button shieldButton = new Button("Purchase Shield:  500 Titanium");
+                        titan.setStyle("-fx-background-color: grey;");
+                        titan.setMaxWidth(200);
+                        titan.setTextFill(Color.WHITE);
+                        titan.setAlignment(Pos.CENTER);
+                        Button weaponButton = new Button("Upgrade weapon:  5 Titanium");
+                        Button lifeButton = new Button("Upgrade max life:  5 Titanium");
+                        Button shieldButton = new Button("Purchase Shield:  5 Titanium");
                         Button resumeButton = new Button("Continue");
                         weaponButton.setMaxWidth(200);
                         lifeButton.setMaxWidth(200);
@@ -203,7 +209,7 @@ public class Game extends Application {
                         VBox levelLayout = new VBox(10);
                         endPosition = gm.getP().getX();
                         levelLayout.setStyle("-fx-background-image: url(file:MediaFiles/background.jpg);");
-                        levelLayout.getChildren().addAll(level,shieldButton,lifeButton,weaponButton, resumeButton);
+                        levelLayout.getChildren().addAll(level,titan,shieldButton,lifeButton,weaponButton, resumeButton);
                         levelLayout.setAlignment(Pos.CENTER);
                         levelScene = new Scene(levelLayout, WIDTH, HEIGHT);
                         stage.setScene(levelScene);
@@ -217,7 +223,7 @@ public class Game extends Application {
                         weaponButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent mouseEvent) {
-                                if(gm.getP().getTitaniumCount() >=500) {
+                                if(gm.getP().getTitaniumCount() >=5) {
                                     gm.upgradeWeapon();
                                     gm.getP().decreaseTitanium();
                                 }
@@ -226,7 +232,7 @@ public class Game extends Application {
                         lifeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent mouseEvent) {
-                                if(gm.getP().getTitaniumCount() >=500) {
+                                if(gm.getP().getTitaniumCount() >=5) {
                                     gm.upgradeMaxLife();
                                     gm.getP().decreaseTitanium();
                                 }
@@ -236,7 +242,7 @@ public class Game extends Application {
                         shieldButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent mouseEvent) {
-                                if(gm.getP().getTitaniumCount() >=500) {
+                                if(gm.getP().getTitaniumCount() >=5) {
                                     gm.getP().setHasShield(true);
                                     if (gm.getP().getCurDirection() == 0) {
                                         try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipLeftShield.png")) {
@@ -437,18 +443,28 @@ public class Game extends Application {
                     gc.drawImage(gm.getMapImage(), gm.getMapImage().getWidth(), 0);
                     gc.drawImage(gm.getMapImage(), -1*gm.getMapImage().getWidth(), 0);
                     gc.drawImage(gm.getMapImage(), -2*gm.getMapImage().getWidth(), 0);
-                    gc.strokeLine(gm.getP().getX()-500, 80, gm.getP().getX()+500, 80);
-                    gc.strokeLine(gm.getP().getX()+300, 0, gm.getP().getX()+300, 80);
-                    gc.strokeLine(gm.getP().getX()-80, 0, gm.getP().getX()-80, 80);
-                    gc.strokeText("Pause(P)", gm.getP().getX()+310, 20);
-                    gc.strokeText("Score: "+gm.getScore() , gm.getP().getX()+310, 40);
-                    gc.strokeText("Lives: " , gm.getP().getX()-200, 20);
+                    
+
+                    gc.setFill(Color.GREY);
+                    gc.setStroke(Color.GREY);
+                    gc.strokeLine(gm.getP().getX()-500+adjust, 80, gm.getP().getX()+500+adjust, 80);
+                    gc.strokeLine(gm.getP().getX()+300+adjust, 0, gm.getP().getX()+300+adjust, 80);
+                    gc.strokeLine(gm.getP().getX()-80+adjust, 0, gm.getP().getX()-80+adjust, 80);
+                    gc.fillRect(gm.getP().getX()-500+adjust, 0, 420, 80);
+                    gc.fillRect(gm.getP().getX()+300+adjust, 0, 420, 80);
+                    gc.setStroke(Color.BLACK);
+                    gc.strokeText("Pause(P)", gm.getP().getX()+310+adjust, 20);
+                    gc.strokeText("Score: "+gm.getScore() , gm.getP().getX()+310+adjust, 40);
+                    gc.strokeText("Titanium: "+gm.getP().getTitaniumCount() , gm.getP().getX()+310+adjust, 60);
+                    gc.strokeText("Lives: " , gm.getP().getX()-200+adjust, 20);
+                    gc.drawImage(gm.getP().getImg(), gm.getP().getX()-160+adjust, 10,20,20);
+                    gc.strokeText(" x"+gm.getP().getLives() , gm.getP().getX()-140+adjust, 20);
 
                     ///////minimap part for map
                     Image minimapimg;
                     try (FileInputStream inputStream = new FileInputStream("MediaFiles/mapImgMM2.png")) {
                         minimapimg = new Image(inputStream);
-                        gc.drawImage(minimapimg,gm.getP().getX() - 80,0);
+                        gc.drawImage(minimapimg,gm.getP().getX() - 80 + adjust,0);
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -460,7 +476,7 @@ public class Game extends Application {
                     try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipLeftMM.png")) {
                         spaceshipLeftMM = new Image(inputStream);
                         if(gm.getP().getCurDirection() == 0)
-                            gc.drawImage(spaceshipLeftMM,(gm.getP().getX()-80)+(gm.getP().getX()/2.69),gm.getP().getY()/6.7);
+                            gc.drawImage(spaceshipLeftMM,(gm.getP().getX()-80)+(gm.getP().getX()/2.69)+adjust,gm.getP().getY()/6.7);
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -469,18 +485,14 @@ public class Game extends Application {
                     try (FileInputStream inputStream = new FileInputStream("MediaFiles/spaceshipRightMM.png")) {
                         spaceshipRightMM = new Image(inputStream);
                         if(gm.getP().getCurDirection() == 1)
-                            gc.drawImage(spaceshipRightMM,(gm.getP().getX()-80)+(gm.getP().getX()/2.69),gm.getP().getY()/6.7);
+                            gc.drawImage(spaceshipRightMM,(gm.getP().getX()-80)+(gm.getP().getX()/2.69)+adjust,gm.getP().getY()/6.7);
 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     ///////////////////
 
-                    int forpic = 160;
-                    for(int i=0;i<gm.getP().getLives();i++) {
-                    	gc.drawImage(gm.getP().getImg(), gm.getP().getX()-forpic, 40,20,20);
-                    	forpic = forpic + 20;
-                    }
+                    
                     if( gm.getMapImage().getWidth()  <  gm.getP().getX()){
                         System.out.println(gm.getMapImage().getWidth()+"borderr right" + gm.getP().getX());
                         gm.getP().setX(0);
@@ -503,7 +515,7 @@ public class Game extends Application {
                                 Image enemyImg;
                                 enemyImg = new Image(inputStream);
                                 if(e.getType() == 1)
-                                gc.drawImage(enemyImg,(gm.getP().getX()-80)+(e.getX()/2.69),e.getY()/6.7);
+                                gc.drawImage(enemyImg,(gm.getP().getX()-80)+(e.getX()/2.69)+adjust,e.getY()/6.7);
 
                             } catch (IOException err) {
                                 err.printStackTrace();
@@ -513,7 +525,7 @@ public class Game extends Application {
                                 Image enemyImg;
                                 enemyImg = new Image(inputStream);
                                 if(e.getType() == 2)
-                                    gc.drawImage(enemyImg,(gm.getP().getX()-80)+(e.getX()/2.69),e.getY()/6.7);
+                                    gc.drawImage(enemyImg,(gm.getP().getX()-80)+(e.getX()/2.69)+adjust,e.getY()/6.7);
 
                             } catch (IOException err) {
                                 err.printStackTrace();
@@ -675,7 +687,7 @@ public class Game extends Application {
         String[] high = gm.getHighScores();
         Label scores1 = new Label("HIGH SCORES \n\n\n \n"  );
         Label scores2 = new Label(high[0]+" "+high[1]+" "+high[2]+"\n"+high[3]+" "+high[4]+" "+high[5]+"\n"+high[6]+" "+high[7]+" "+high[8]+"\n"+high[9]+" "+high[10]+" "+high[11]+"\n"+high[12]+" "+high[13]+" "+high[14]);
-        
+        adjust = adjust + 40;
         scores1.setTextFill(Color.WHITE);
         scores1.setFont(Font.font(20));
         scores2.setTextFill(Color.WHITE);
