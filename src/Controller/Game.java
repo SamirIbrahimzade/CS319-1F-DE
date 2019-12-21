@@ -267,7 +267,7 @@ public class Game extends Application {
                     }
                     checkCol();
                     //player move
-                    if(goUP && gm.getP().getY() > 0){
+                    if(goUP && gm.getP().getY() > 80){
                        // System.out.println("up");
                         gm.getP().move(0,2);
 
@@ -360,11 +360,16 @@ public class Game extends Application {
                             if(i < gm.getEnemyList().length/2 -1){
                                 for (int j = 0; j < 70000; j++) {
                                     if(rand == 0 ) {
-                                        if (e.getY() > 0 && e.getY() < gm.getMapImage().getHeight() - 110)
+                                        if (e.getY() < gm.getMapImage().getHeight() - 110)
                                             e.move(rand);
+                                        else e.move(1);
                                     }
-                                    else e.move(rand);
-
+                                    else {
+                                    	if(rand==1)
+                                    		if(e.getY()>80) e.move(rand);
+                                    		else e.move(0);
+                                    	else e.move(rand);
+                                    }
                                 }
                             }
                             else{
@@ -423,6 +428,17 @@ public class Game extends Application {
                     gc.drawImage(gm.getMapImage(), gm.getMapImage().getWidth(), 0);
                     gc.drawImage(gm.getMapImage(), -1*gm.getMapImage().getWidth(), 0);
                     gc.drawImage(gm.getMapImage(), -2*gm.getMapImage().getWidth(), 0);
+                    gc.strokeLine(gm.getP().getX()-500, 80, gm.getP().getX()+500, 80);
+                    gc.strokeLine(gm.getP().getX()+300, 0, gm.getP().getX()+300, 80);
+                    gc.strokeLine(gm.getP().getX()-80, 0, gm.getP().getX()-80, 80);
+                    gc.strokeText("Pause(P)", gm.getP().getX()+310, 20);
+                    gc.strokeText("Score: "+gm.getScore() , gm.getP().getX()+310, 40);
+                    gc.strokeText("Lives: " , gm.getP().getX()-200, 20);
+                    int forpic = 160;
+                    for(int i=0;i<gm.getP().getLives();i++) {
+                    	gc.drawImage(gm.getP().getImg(), gm.getP().getX()-forpic, 40,20,20);
+                    	forpic = forpic + 20;
+                    }
                     if( gm.getMapImage().getWidth()  <  gm.getP().getX()){
                         System.out.println(gm.getMapImage().getWidth()+"borderr right" + gm.getP().getX());
                         gm.getP().setX(0);
@@ -445,6 +461,7 @@ public class Game extends Application {
                         }
                     }
 
+                    
                     for (Bullet b : gm.getBulletList()) {
                         if (b.isActive()) {
                             int futureBulletPosOffset = 0;
@@ -464,7 +481,6 @@ public class Game extends Application {
                             gc.drawImage(b.getImg(), b.getX(), b.getY());
                             gc.drawImage(b.getImg(), b.getX() - 1026, b.getY());
                             gc.drawImage(b.getImg(), b.getX() + 1026, b.getY());
-
                             if( gm.getMapImage().getWidth()  <  b.getX()){
                                 b.setX(0);
                             }
@@ -496,7 +512,12 @@ public class Game extends Application {
                         Button enterButton = new Button("ENTER");
                         enterButton.setOnAction(e -> {
                             try {
-                                high(enterName.getText(), gm.getScore(), stage);
+                            	if(enterName.getText().isEmpty() ) {
+                            		high("-", gm.getScore(), stage);
+                            	}
+                            	else {
+                                    high(enterName.getText(), gm.getScore(), stage);
+                            	}
                             } catch (FileNotFoundException e1) {
                                 // TODO Auto-generated catch block
                                 e1.printStackTrace();
