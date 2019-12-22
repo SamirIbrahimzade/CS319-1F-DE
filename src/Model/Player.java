@@ -34,7 +34,7 @@ public class Player extends GameObject {
         return shootCooldown;
     }
     public Player(){
-        maxLives = 3;
+        maxLives = 4;
         hasShield = false;
         lives = 3;
         speed = 1;
