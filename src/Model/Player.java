@@ -20,11 +20,11 @@ public class Player extends GameObject {
     private int titaniumCount;
 
     public void increaseTitanium() {
-        this.titaniumCount = this.titaniumCount + 200;
+        this.titaniumCount = this.titaniumCount + 300;
     }
 
     public void decreaseTitanium() {
-        this.titaniumCount = this.titaniumCount - 500;
+        this.titaniumCount = this.titaniumCount - 300;
     }
 
     public int getTitaniumCount() {
@@ -34,8 +34,9 @@ public class Player extends GameObject {
         return shootCooldown;
     }
     public Player(){
+        maxLives = 3;
         hasShield = false;
-        lives = 3000;
+        lives = 3;
         speed = 1;
         curDirection = 1;
         weapon = 0;

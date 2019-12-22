@@ -185,6 +185,7 @@ public class Game extends Application {
                         System.out.println("Level " + destroyedEnemy / 3 + " passed!");
                         gm.increaseEnemySpeeds();
                         gm.increaseLevel();
+                        gm.spawnEnemy();
                         gm.setKillScore(((destroyedEnemy % 3) + 1) * 500);
                         onlyOnce = 1;
                         pauser = 1;
@@ -198,9 +199,9 @@ public class Game extends Application {
                         titan.setMaxWidth(200);
                         titan.setTextFill(Color.WHITE);
                         titan.setAlignment(Pos.CENTER);
-                        Button weaponButton = new Button("Upgrade weapon:  5 Titanium");
-                        Button lifeButton = new Button("Upgrade max life:  5 Titanium");
-                        Button shieldButton = new Button("Purchase Shield:  5 Titanium");
+                        Button weaponButton = new Button("Upgrade weapon:  300 Titanium");
+                        Button lifeButton = new Button("Upgrade max life:  300 Titanium");
+                        Button shieldButton = new Button("Purchase Shield:  300 Titanium");
                         Button resumeButton = new Button("Continue");
                         weaponButton.setMaxWidth(200);
                         lifeButton.setMaxWidth(200);
