@@ -173,7 +173,10 @@ public class GameManager {
     }
 
     void upgradeWeapon(){
-        p.setWeapon(1);
+        if(p.getWeapon() == 0)
+            p.setWeapon(1);
+        else if(p.getWeapon() == 1)
+            p.setWeapon(2);
     }
     void upgradeMaxLife(){
         p.setMaxLives(p.getMaxLives() + 1);

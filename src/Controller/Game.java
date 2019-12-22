@@ -113,7 +113,7 @@ public class Game extends Application {
         Label person2 = new Label("Abdullah Ayberk Gorgun");
         Label person3 = new Label("Taner Durmaz");
         Label person4 = new Label("Hassan Raza");
-        Label person5 = new Label("Alymbek");
+        Label person5 = new Label("Alymbek Sagymbaev");
         person1.setTextFill(Color.WHITE);
         person1.setFont(Font.font(20));
         person2.setTextFill(Color.WHITE);
@@ -340,6 +340,15 @@ public class Game extends Application {
                             gm.increaseBulletIndex();
                             lastShootTime = System.currentTimeMillis();
                             if(gm.getP().getWeapon() == 1){
+                                gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 2);
+                                gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
+                                gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
+                                gm.getBulletList()[gm.getBulletIndex()].setEnemyBullet(false);
+                                gm.getBulletList()[gm.getBulletIndex()].setActive(true);
+                                gm.increaseBulletIndex();
+                            }
+
+                            if(gm.getP().getWeapon() == 2){
                                 gm.getBulletList()[gm.getBulletIndex()].setCurDirection(gm.getP().curDirection + 2);
                                 gm.getBulletList()[gm.getBulletIndex()].setX(gm.getP().x+47);
                                 gm.getBulletList()[gm.getBulletIndex()].setY(gm.getP().y+33);
