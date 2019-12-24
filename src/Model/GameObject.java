@@ -2,13 +2,20 @@ package Model;
 
 import javafx.scene.image.Image;
 
+import java.awt.image.BufferedImage;
+
 public abstract class GameObject {
 
-    public int x = 0;
-    public int y;
+    public float x;
+    public float y;
     public int curDirection;
-    public int speed;
+    public float speed;
     public Image img;
+    public boolean active;
+
+    GameObject(){
+        active = false;
+    }
 
     public void setCurDirection(int curDirection) {
         this.curDirection = curDirection;
@@ -22,19 +29,19 @@ public abstract class GameObject {
         this.img = img;
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
@@ -42,11 +49,19 @@ public abstract class GameObject {
         return curDirection;
     }
 
-    public int getSpeed() {
+    public float getSpeed() {
         return speed;
     }
 
     public Image getImg() {
         return img;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean value){
+        active = value;
     }
 }
